@@ -1,4 +1,4 @@
-﻿import { useMemo, useState, type FormEvent } from "react";
+﻿import { useMemo, useRef, useState, type FormEvent } from "react";
 import { asset } from "@/lib/asset";
 import {
   ArrowUpRight,
@@ -25,6 +25,8 @@ import {
 
 export function Site() {
   const [slide, setSlide] = useState(0);
+  const [direction, setDirection] = useState<1 | -1>(1);
+  const touchStartX = useRef<number | null>(null);
   const category = categories[slide];
   const [menuOpen, setMenuOpen] = useState(false);
   const [branchId, setBranchId] = useState<BranchId>("parana");
@@ -50,7 +52,17 @@ export function Site() {
   );
 
   function goTo(index: number) {
-    setSlide((index + categories.length) % categories.length);
+    const next = (index + categories.length) % categories.length;
+    setDirection(next > slide ? 1 : -1);
+    setSlide(next);
+  }
+
+  function onSwipeEnd(event: React.TouchEvent) {
+    const start = touchStartX.current;
+    touchStartX.current = null;
+    if (start === null) return;
+    const dx = event.changedTouches[0].clientX - start;
+    if (Math.abs(dx) > 50) goTo(slide + (dx < 0 ? 1 : -1));
   }
 
   function chooseGrams(product: Product, amount: number) {
@@ -246,7 +258,14 @@ export function Site() {
             </button>
           </div>
 
-          <article className="mt-6">
+          <article
+            key={slide}
+            className={`mt-6 touch-pan-y ${direction === 1 ? "slide-from-right" : "slide-from-left"}`}
+            onTouchStart={(event) => {
+              touchStartX.current = event.touches[0].clientX;
+            }}
+            onTouchEnd={onSwipeEnd}
+          >
             <div className="flex flex-wrap items-end justify-between gap-3 border-b border-line pb-5">
               <div>
                 <p className="text-sm font-medium text-leaf">{category.kicker}</p>
