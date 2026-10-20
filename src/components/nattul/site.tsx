@@ -110,7 +110,7 @@ export function Site() {
               Sucursales
             </a>
             <a href="#contacto" className="hover:text-forest">
-              Contacto
+              Pedidos
             </a>
             <a href={socials.instagram} target="_blank" rel="noreferrer" aria-label="Instagram" className="text-forest">
               <Instagram className="size-5" />
@@ -146,7 +146,7 @@ export function Site() {
                 Sucursales
               </a>
               <a href="#contacto" onClick={() => setMenuOpen(false)} className="rounded-2xl px-3 py-3 hover:bg-foam">
-                Contacto
+                Pedidos
               </a>
             </div>
           </div>
