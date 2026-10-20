@@ -2,6 +2,7 @@
 import { asset } from "@/lib/asset";
 import {
   ArrowUpRight,
+  ChevronRight,
   Facebook,
   Instagram,
   Mail,
@@ -217,22 +218,32 @@ export function Site() {
             <h2 className="font-display text-4xl text-deep md:text-5xl">Seis góndolas, un desliz.</h2>
           </div>
 
-          <div className="mt-6 flex gap-2 overflow-x-auto pb-1">
-            {categories.map((category, index) => {
-              const active = index === slide;
-              return (
-                <button
-                  key={category.id}
-                  type="button"
-                  onClick={() => goTo(index)}
-                  className={`h-11 shrink-0 rounded-full px-4 text-sm font-medium ${
-                    active ? "bg-forest text-cream" : "bg-paper text-ink border border-line"
-                  }`}
-                >
-                  {category.name}
-                </button>
-              );
-            })}
+          <div className="relative mt-6">
+            <div className="no-scrollbar flex gap-2 overflow-x-auto pb-1 pr-12">
+              {categories.map((category, index) => {
+                const active = index === slide;
+                return (
+                  <button
+                    key={category.id}
+                    type="button"
+                    onClick={() => goTo(index)}
+                    className={`h-11 shrink-0 rounded-full px-4 text-sm font-medium ${
+                      active ? "bg-forest text-cream" : "bg-paper text-ink border border-line"
+                    }`}
+                  >
+                    {category.name}
+                  </button>
+                );
+              })}
+            </div>
+            <button
+              type="button"
+              aria-label="Categoría siguiente"
+              onClick={() => goTo(slide + 1)}
+              className="absolute right-0 top-0 inline-flex h-11 w-10 items-center justify-center rounded-full bg-paper text-forest shadow-sm md:hidden"
+            >
+              <ChevronRight className="size-5" />
+            </button>
           </div>
 
           <article className="mt-6">
@@ -256,6 +267,19 @@ export function Site() {
               ))}
             </div>
           </article>
+
+          <div className="mt-8 flex justify-center gap-2 md:hidden" role="group" aria-label="Categorías">
+            {categories.map((category, index) => (
+              <button
+                key={category.id}
+                type="button"
+                aria-label={`Ir a ${category.name}`}
+                aria-current={index === slide}
+                onClick={() => goTo(index)}
+                className={`h-2 rounded-full transition-all ${index === slide ? "w-6 bg-forest" : "w-2 bg-line"}`}
+              />
+            ))}
+          </div>
         </section>
 
         <section id="sucursales" className="bg-deep text-cream">
