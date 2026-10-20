@@ -78,7 +78,7 @@ export function Site() {
     const body = lines
       .map((line) => `• ${line.product.name} — ${formatGrams(line.grams)}`)
       .join("\n");
-    return `Hola Nattul! Armé este pedido:\n${body}\nLo retiraría en sucursal ${targetName}.`;
+    return `Hola Nattul! Quería consultar el precio de estos productos en sucursal ${targetName}:\n${body}`;
   }
 
   function openWhatsapp(targetId: BranchId) {
@@ -460,7 +460,7 @@ export function Site() {
                   className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-forest font-medium text-cream"
                 >
                   <MessageCircle className="size-4" />
-                  Mandar pedido a {branch.name}
+                  Consultar precio en {branch.name}
                 </button>
               </div>
             ) : null}
