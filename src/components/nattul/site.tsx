@@ -1,4 +1,5 @@
-import { useMemo, useState, type FormEvent } from "react";
+﻿import { useMemo, useState, type FormEvent } from "react";
+import { asset } from "@/lib/asset";
 import {
   ArrowUpRight,
   Facebook,
@@ -99,7 +100,7 @@ export function Site() {
       <header className="sticky top-0 z-40 border-b border-line bg-cream/95 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3 md:px-6">
           <a href="#inicio" className="shrink-0">
-            <img src="/brand/logo.png" alt="Nattul Almacén Natural" className="h-12 w-auto md:h-14" />
+            <img src={asset("/brand/logo.png")} alt="Nattul Almacén Natural" className="h-12 w-auto md:h-14" />
           </a>
           <nav className="ml-auto hidden items-center gap-6 text-sm font-medium md:flex">
             <a href="#catalogo" className="hover:text-forest">
@@ -182,12 +183,12 @@ export function Site() {
           </div>
           <div className="grid grid-cols-2 gap-3">
             <img
-              src="/products/almendras.jpg"
+              src={asset("/products/almendras.jpg")}
               alt="Almendras a granel"
               className="row-span-2 h-full min-h-80 w-full rounded-card object-cover"
             />
-            <img src="/products/cacao.jpg" alt="Cacao amargo en polvo" className="h-40 w-full rounded-card object-cover md:h-48" />
-            <img src="/products/avena.jpg" alt="Avena arrollada" className="h-40 w-full rounded-card object-cover md:h-48" />
+            <img src={asset("/products/cacao.jpg")} alt="Cacao amargo en polvo" className="h-40 w-full rounded-card object-cover md:h-48" />
+            <img src={asset("/products/avena.jpg")} alt="Avena arrollada" className="h-40 w-full rounded-card object-cover md:h-48" />
           </div>
         </section>
 
@@ -391,7 +392,7 @@ export function Site() {
       <footer className="border-t border-line">
         <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-8 md:flex-row md:items-end md:justify-between md:px-6">
           <div>
-            <img src="/brand/logo.png" alt="" className="h-10 w-auto" />
+            <img src={asset("/brand/logo.png")} alt="" className="h-10 w-auto" />
             <p className="mt-3 max-w-sm text-sm text-muted">Tu punto sano en la ciudad. Oro Verde y Paraná, Entre Ríos.</p>
             <p className="mt-2 max-w-sm text-sm text-muted">
               Nattul nace de NaturalMente Dietética, la dietética online de la zona, y hoy abre la puerta en dos locales.
@@ -516,10 +517,10 @@ function ProductCard({
   return (
     <article className="flex flex-col">
       {product.image ? (
-        <img src={product.image} alt={product.name} className="aspect-square w-full rounded-2xl object-cover md:aspect-[4/3]" />
+        <img src={asset(product.image)} alt={product.name} className="aspect-square w-full rounded-2xl object-cover md:aspect-[4/3]" />
       ) : (
         <div className="flex aspect-square flex-col justify-between rounded-2xl bg-forest p-4 text-cream md:aspect-[4/3] md:p-5">
-          <img src="/brand/mark-cream.png" alt="" className="size-12 md:size-14" />
+          <img src={asset("/brand/mark-cream.png")} alt="" className="size-12 md:size-14" />
           <div>
             <p className="text-sm text-foam">{formatGrams(grams)}</p>
             <p className="font-display text-2xl leading-tight md:text-3xl">{product.name}</p>
