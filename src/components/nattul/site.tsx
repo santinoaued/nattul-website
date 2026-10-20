@@ -405,6 +405,10 @@ export function Site() {
               <a href="https://commons.wikimedia.org/wiki/File:Annatto_Seeds.jpg" className="underline" target="_blank" rel="noreferrer">Misterneedlemouse</a> y{" "}
               <a href="https://commons.wikimedia.org/wiki/File:Trail_Mix.JPG" className="underline" target="_blank" rel="noreferrer">Papathanasiouk</a>. Licencias CC BY-SA y CC0.
             </p>
+            <p className="mt-4 max-w-sm text-xs text-muted">
+              © 2026{" "}
+              <a href="https://santinoaued.github.io" className="underline" target="_blank" rel="noreferrer">Santino Aued</a>
+            </p>
           </div>
         </div>
       </footer>
