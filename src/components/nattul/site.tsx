@@ -62,7 +62,8 @@ export function Site() {
     touchStartX.current = null;
     if (start === null) return;
     const dx = event.changedTouches[0].clientX - start;
-    if (Math.abs(dx) > 50) goTo(slide + (dx < 0 ? 1 : -1));
+    const next = slide + (dx < 0 ? 1 : -1);
+    if (Math.abs(dx) > 50 && next >= 0 && next < categories.length) goTo(next);
   }
 
   function chooseGrams(product: Product, amount: number) {
@@ -248,14 +249,16 @@ export function Site() {
                 );
               })}
             </div>
-            <button
-              type="button"
-              aria-label="Categoría siguiente"
-              onClick={() => goTo(slide + 1)}
-              className="absolute right-0 top-0 inline-flex h-11 w-10 items-center justify-center rounded-full bg-paper text-forest shadow-sm md:hidden"
-            >
-              <ChevronRight className="size-5" />
-            </button>
+            {slide < categories.length - 1 ? (
+              <button
+                type="button"
+                aria-label="Categoría siguiente"
+                onClick={() => goTo(slide + 1)}
+                className="absolute right-0 top-0 inline-flex h-11 w-10 items-center justify-center rounded-full bg-paper text-forest shadow-sm md:hidden"
+              >
+                <ChevronRight className="size-5" />
+              </button>
+            ) : null}
           </div>
 
           <article
