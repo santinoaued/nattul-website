@@ -28,6 +28,7 @@ jobs:
         run: npx vite build
         env:
           PAGES_BUILD: "1"
+          VITE_GROK_EXTENSIONS: "0"
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .vercel/output/static
