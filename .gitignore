@@ -1,0 +1,8 @@
+node_modules/
+.vercel/
+dist/
+.tanstack/
+.node_modules.lock
+.env
+.env.*
+!.env.example
