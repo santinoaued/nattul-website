@@ -17,7 +17,6 @@ export async function GET() {
       n: product.name,
       c: product.categorySlug,
       cn: product.category,
-      p: product.price,
       u: product.unit,
       t: product.tags,
       i: await thumbnail(product.image),

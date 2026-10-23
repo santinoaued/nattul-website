@@ -1,7 +1,6 @@
 ---
 import ProductImage from "@/components/ProductImage.astro";
 import { productUrl } from "@/lib/catalog";
-import { formatPrice } from "@/lib/format";
 import { TAG_LABELS, type Product } from "@/lib/products";
 
 interface Props {
@@ -18,8 +17,7 @@ const { product } = Astro.props;
   </a>
   <p class="mt-1 text-sm text-muted">{product.unit}</p>
   {product.tags.length > 0 && <p class="mt-1 text-xs font-medium text-leaf">{product.tags.map((tag) => TAG_LABELS[tag]).join(", ")}</p>}
-  <div class="mt-auto flex items-center justify-between gap-2 pt-3">
-    <p class="font-display text-lg text-deep">{formatPrice(product.price)}</p>
+  <div class="mt-auto pt-3">
     {
       product.available ? (
         <button
@@ -28,8 +26,7 @@ const { product } = Astro.props;
           data-slug={product.slug}
           data-name={product.name}
           data-unit={product.unit}
-          data-price={product.price}
-          class="inline-flex h-11 items-center rounded-full bg-forest px-4 text-sm font-medium text-cream"
+          class="inline-flex h-11 w-full items-center justify-center rounded-full bg-forest px-4 text-sm font-medium text-cream"
           aria-label={`Agregar ${product.name} al pedido`}
         >
           <span data-label>Agregar</span>

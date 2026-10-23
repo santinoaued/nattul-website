@@ -6,7 +6,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCategories, getProducts } from "@/lib/catalog";
 import { TAG_LABELS } from "@/lib/products";
 
-const placeholder = (await getImage({ src: mark, width: 112, format: "webp" })).src;
+const placeholder = (await getImage({ src: mark, height: 112, format: "webp" })).src;
 const categories = getCategories(await getProducts()).map(({ slug, name }) => ({ slug, name }));
 ---
 

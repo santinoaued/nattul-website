@@ -14,9 +14,9 @@ function renderCount() {
 document.addEventListener("click", (event) => {
   const button = (event.target as Element).closest<HTMLButtonElement>("[data-add-to-cart]");
   if (!button) return;
-  const { slug, name, unit, price } = button.dataset;
-  if (!slug || !name || !unit || !price) return;
-  cart.add({ slug, name, unit, price: Number(price) });
+  const { slug, name, unit } = button.dataset;
+  if (!slug || !name || !unit) return;
+  cart.add({ slug, name, unit });
   const label = button.querySelector("[data-label]") ?? button;
   const original = label.textContent;
   label.textContent = "Agregado";

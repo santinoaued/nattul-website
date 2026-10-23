@@ -1,6 +1,6 @@
 # Nattul: catálogo online
 
-Catálogo de una dietética. El cliente arma un pedido en el sitio y lo envía por WhatsApp con el detalle y el total. No tiene pagos online.
+Catálogo de una dietética. El cliente arma una lista de productos y la envía por WhatsApp para consultar precios y disponibilidad. El sitio no muestra precios ni tiene pagos online.
 
 Es un sitio estático hecho con [Astro](https://astro.build), pensado para Cloudflare Pages. Solo el carrito y el buscador cargan JavaScript (islas de Preact); el resto es HTML.
 
@@ -76,7 +76,6 @@ La primera fila tiene que tener exactamente estos encabezados:
 | `nombre` | Sí | Texto | `Almendras enteras` |
 | `categoria` | Sí | Texto. Define las páginas de categoría | `Frutos secos` |
 | `subcategoria` | No | Texto | `Almendras y nueces` |
-| `precio` | Sí | Pesos, número entero sin puntos ni signos | `2400` |
 | `unidad` | Sí | `100 g`, `1 kg`, `500 ml`, `1 l` o `unidad` | `250 g` |
 | `descripcion` | Sí | Texto | `Almendras con piel...` |
 | `imagen` | No | `/products/archivo.jpg` (local) o URL `https://` | `/products/almendras.jpg` |
@@ -87,7 +86,7 @@ Si una fila tiene un dato inválido, el build falla e indica el producto y el ca
 
 ```
 products → X-1 data does not match collection schema.
-  price: precio: número entero en pesos, sin puntos ni signos (ej. 4800)
+  unit: unidad: "100 g", "1 kg", "500 ml" o "unidad"
 ```
 
 También falla si hay `id` o `slug` repetidos, o si falta alguna columna.
@@ -127,4 +126,4 @@ Ver `.env.example`. Para desarrollo local, copiarlo como `.env`. Ese archivo no 
 ## Créditos y licencias
 
 - Fuentes Fraunces y Outfit: SIL Open Font License, servidas desde `public/fonts`.
-- Algunas fotos de producto son de Wikimedia Commons, con licencias CC BY-SA y CC0. Los créditos están en el footer.
+- Las fotos de producto de la demo son provisorias y se reemplazan por fotos propias del cliente.

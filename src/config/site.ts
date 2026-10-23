@@ -6,7 +6,7 @@ export const site = {
   tagline: "Tu punto sano en la ciudad.",
   description:
     "Almacén natural y dietética. Frutos secos, semillas, cereales, yerba y más, a granel y envasados. Armá tu pedido y envialo por WhatsApp.",
-  // Muestra el aviso de catálogo y precios de demostración.
+  // Muestra el aviso de catálogo de demostración.
   demoMode: true,
 
   // PLACEHOLDER: número en formato internacional sin "+", espacios ni guiones.

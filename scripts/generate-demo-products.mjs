@@ -16,7 +16,6 @@ const rows = Array.from({ length: TOTAL }, (_, i) => {
     id: `SYN-${String(i + 1).padStart(4, "0")}`,
     slug: "",
     nombre: `${source.nombre} (demo ${batch})`,
-    precio: String(Math.round((Number(source.precio) * (0.9 + (batch % 5) * 0.05)) / 10) * 10),
   };
 });
 

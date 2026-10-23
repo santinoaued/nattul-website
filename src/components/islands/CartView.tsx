@@ -1,23 +1,21 @@
 import { href } from "@/lib/url";
 import { useEffect, useState } from "preact/hooks";
 import { getCart, MAX_QTY, type CartItem } from "@/lib/cart";
-import { formatPrice } from "@/lib/format";
 import { loadIndex } from "@/lib/search-index";
 import { buildOrderUrl } from "@/lib/whatsapp";
 
 interface Props {
   phone: string;
-  minimumOrder: number;
 }
 
-export default function CartView({ phone, minimumOrder }: Props) {
+export default function CartView({ phone }: Props) {
   const cart = getCart();
   const [items, setItems] = useState<CartItem[]>(() => cart.items());
   const [notice, setNotice] = useState("");
 
   useEffect(() => cart.subscribe(setItems), []);
 
-  // Prices live in the catalog, not in the cart: refresh them and drop products that no longer exist.
+  // Names, units and stock live in the catalog: refresh them and drop products that are gone or unavailable.
   useEffect(() => {
     loadIndex()
       .then((index) => {
@@ -25,15 +23,17 @@ export default function CartView({ phone, minimumOrder }: Props) {
         const current = cart.items();
         const next = current.flatMap((item) => {
           const entry = bySlug.get(item.slug);
-          return entry && entry.a ? [{ ...item, name: entry.n, unit: entry.u, price: entry.p }] : [];
+          return entry && entry.a ? [{ ...item, name: entry.n, unit: entry.u }] : [];
         });
         const changed = JSON.stringify(next) !== JSON.stringify(current);
         if (changed) {
           cart.replace(next);
-          setNotice("Actualizamos tu pedido con los precios y el stock vigentes.");
+          setNotice("Actualizamos tu pedido: sacamos productos que ya no están disponibles.");
         }
       })
-      .catch(() => setNotice("No pudimos verificar precios actualizados. Te los confirmamos por WhatsApp."));
+      .catch(() => {
+        // Without the index the cart still works; the store confirms stock by chat.
+      });
   }, []);
 
   if (items.length === 0) {
@@ -48,8 +48,6 @@ export default function CartView({ phone, minimumOrder }: Props) {
     );
   }
 
-  const total = items.reduce((sum, item) => sum + item.price * item.qty, 0);
-  const belowMinimum = minimumOrder > 0 && total < minimumOrder;
   const { url, truncated } = buildOrderUrl(phone, items);
 
   return (
@@ -68,7 +66,7 @@ export default function CartView({ phone, minimumOrder }: Props) {
                   {item.name}
                 </a>
                 <p class="text-sm text-muted">
-                  {item.unit}, {formatPrice(item.price)} c/u
+                  {item.unit}
                 </p>
               </div>
               <div class="flex items-center gap-1" role="group" aria-label={`Cantidad de ${item.name}`}>
@@ -103,7 +101,6 @@ export default function CartView({ phone, minimumOrder }: Props) {
                   +
                 </button>
               </div>
-              <p class="ml-auto w-24 text-right font-medium sm:ml-0">{formatPrice(item.price * item.qty)}</p>
               <button type="button" class="h-11 px-2 text-sm text-forest underline" onClick={() => cart.remove(item.slug)}>
                 Quitar
               </button>
@@ -116,27 +113,20 @@ export default function CartView({ phone, minimumOrder }: Props) {
       </div>
 
       <aside class="h-fit rounded-card border border-line bg-paper p-5" aria-label="Resumen del pedido">
-        <p class="flex items-baseline justify-between">
-          <span class="text-muted">Total</span>
-          <span class="font-display text-3xl text-deep">{formatPrice(total)}</span>
+        <p class="font-display text-2xl text-deep">
+          {items.length} producto{items.length === 1 ? "" : "s"} en tu lista
         </p>
-        <p class="mt-2 text-xs text-muted">El local confirma stock, precio final y entrega por WhatsApp.</p>
-        {belowMinimum ? (
-          <p class="mt-4 rounded-2xl bg-foam px-4 py-3 text-sm text-forest">
-            La compra mínima es de {formatPrice(minimumOrder)}. Te faltan {formatPrice(minimumOrder - total)}.
-          </p>
-        ) : (
-          <a
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="mt-4 inline-flex h-12 w-full items-center justify-center rounded-full bg-forest px-5 font-medium text-cream"
-          >
-            Enviar pedido por WhatsApp
-          </a>
-        )}
-        {truncated && !belowMinimum && (
-          <p class="mt-3 text-xs text-muted">El pedido es largo: el mensaje resume algunos productos y el detalle se completa por chat.</p>
+        <p class="mt-2 text-sm text-muted">Te respondemos por WhatsApp con los precios, el stock y la forma de entrega.</p>
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-4 inline-flex h-12 w-full items-center justify-center rounded-full bg-forest px-5 font-medium text-cream"
+        >
+          Consultar por WhatsApp
+        </a>
+        {truncated && (
+          <p class="mt-3 text-xs text-muted">La lista es larga: el mensaje resume algunos productos y el detalle se completa por chat.</p>
         )}
       </aside>
     </div>

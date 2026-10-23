@@ -22,7 +22,6 @@ const COLUMNS = {
   name: "nombre",
   category: "categoria",
   subcategory: "subcategoria",
-  price: "precio",
   unit: "unidad",
   description: "descripcion",
   image: "imagen",
@@ -38,10 +37,6 @@ export const productSchema = z.object({
   category: z.string().min(1, "categoria: no puede estar vacía"),
   categorySlug: z.string().min(1),
   subcategory: optionalText,
-  price: z
-    .string()
-    .regex(/^\d+$/, "precio: número entero en pesos, sin puntos ni signos (ej. 4800)")
-    .transform(Number),
   unit: z.string().regex(/^(\d+ (g|kg|ml|l)|unidad)$/, 'unidad: "100 g", "1 kg", "500 ml" o "unidad"'),
   description: z.string().min(1, "descripcion: no puede estar vacía"),
   image: z
@@ -109,7 +104,6 @@ async function readProducts(root: URL) {
       category: record[COLUMNS.category],
       categorySlug: slugify(record[COLUMNS.category]),
       subcategory: record[COLUMNS.subcategory],
-      price: record[COLUMNS.price],
       unit: record[COLUMNS.unit],
       description: record[COLUMNS.description],
       image: record[COLUMNS.image],

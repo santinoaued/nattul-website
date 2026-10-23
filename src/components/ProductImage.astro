@@ -36,7 +36,7 @@ const classes = "aspect-square w-full rounded-2xl bg-foam object-cover";
     <img src={image} alt={alt} width="600" height="600" loading={eager ? "eager" : "lazy"} decoding="async" class={classes} />
   ) : (
     <div class="flex aspect-square w-full items-center justify-center rounded-2xl bg-forest">
-      <Image src={mark} alt="" width={56} densities={[1, 2]} class="size-14 opacity-80" />
+      <Image src={mark} alt="" height={56} densities={[1, 2]} class="h-14 w-auto opacity-80" />
       {alt && <span class="sr-only">{alt}: sin foto</span>}
     </div>
   )

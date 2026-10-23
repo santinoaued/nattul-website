@@ -2,7 +2,6 @@ export interface CartItem {
   slug: string;
   name: string;
   unit: string;
-  price: number;
   qty: number;
 }
 
@@ -32,11 +31,10 @@ function sanitize(value: unknown): CartItem[] {
   if (!Array.isArray(value)) return [];
   return value.flatMap((item) => {
     if (typeof item !== "object" || item === null) return [];
-    const { slug, name, unit, price, qty } = item as Record<string, unknown>;
+    const { slug, name, unit, qty } = item as Record<string, unknown>;
     if (typeof slug !== "string" || typeof name !== "string" || typeof unit !== "string") return [];
-    if (!Number.isInteger(price) || (price as number) < 0) return [];
     if (!Number.isInteger(qty) || (qty as number) < 1) return [];
-    return [{ slug, name, unit, price: price as number, qty: Math.min(qty as number, MAX_QTY) }];
+    return [{ slug, name, unit, qty: Math.min(qty as number, MAX_QTY) }];
   });
 }
 
@@ -63,7 +61,6 @@ export function createCart(storage: Storage = safeStorage()) {
   return {
     items: read,
     count: () => read().reduce((sum, item) => sum + item.qty, 0),
-    total: () => read().reduce((sum, item) => sum + item.price * item.qty, 0),
     add(item: Omit<CartItem, "qty">, qty = 1) {
       const items = read();
       const existing = items.find((entry) => entry.slug === item.slug);

@@ -7,7 +7,6 @@ export interface IndexEntry {
   n: string;
   c: string;
   cn: string;
-  p: number;
   u: string;
   t: Tag[];
   i: string;

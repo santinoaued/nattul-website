@@ -1,6 +1,6 @@
 import { href } from "@/lib/url";
 import { useEffect, useMemo, useState } from "preact/hooks";
-import { formatPrice, normalize } from "@/lib/format";
+import { normalize } from "@/lib/format";
 import type { Tag } from "@/lib/products";
 import { loadIndex, type IndexEntry } from "@/lib/search-index";
 
@@ -120,14 +120,13 @@ export default function Search({ categories, tags, placeholder }: Props) {
                 <img src={entry.i} alt="" width={300} height={300} loading="lazy" decoding="async" class="aspect-square w-full rounded-2xl bg-foam object-cover" />
               ) : (
                 <div class="flex aspect-square w-full items-center justify-center rounded-2xl bg-forest">
-                  <img src={placeholder} alt="" width={56} height={56} class="size-14 opacity-80" />
+                  <img src={placeholder} alt="" width={38} height={56} class="h-14 w-auto opacity-80" />
                 </div>
               )}
               <h2 class="mt-3 font-display text-lg leading-snug text-deep group-hover:underline">{entry.n}</h2>
             </a>
             <p class="mt-1 text-sm text-muted">{entry.u}</p>
-            <div class="mt-auto flex items-center justify-between gap-2 pt-3">
-              <p class="font-display text-lg text-deep">{formatPrice(entry.p)}</p>
+            <div class="mt-auto pt-3">
               {entry.a ? (
                 <button
                   type="button"
@@ -135,9 +134,8 @@ export default function Search({ categories, tags, placeholder }: Props) {
                   data-slug={entry.s}
                   data-name={entry.n}
                   data-unit={entry.u}
-                  data-price={entry.p}
                   aria-label={`Agregar ${entry.n} al pedido`}
-                  class="inline-flex h-11 items-center rounded-full bg-forest px-4 text-sm font-medium text-cream"
+                  class="inline-flex h-11 w-full items-center justify-center rounded-full bg-forest px-4 text-sm font-medium text-cream"
                 >
                   <span data-label>Agregar</span>
                 </button>
