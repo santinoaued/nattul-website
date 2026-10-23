@@ -4,10 +4,27 @@ import tailwindcss from "@tailwindcss/vite";
 import { loadEnv } from "vite";
 
 const env = loadEnv(process.env.NODE_ENV ?? "production", process.cwd(), "");
+// Origin of external product images (e.g. Cloudflare R2), allowed in the CSP.
+const imagesOrigin = env.IMAGES_ORIGIN ?? "";
 
 export default defineConfig({
   site: env.SITE_URL || "https://nattul.pages.dev",
   trailingSlash: "always",
   integrations: [preact()],
   vite: { plugins: [tailwindcss()] },
+  security: {
+    // Emits a per-page CSP <meta> with hashes for Astro's inline island scripts and styles.
+    csp: {
+      directives: [
+        "default-src 'self'",
+        `img-src 'self' data: ${imagesOrigin}`.trim(),
+        "font-src 'self'",
+        "connect-src 'self'",
+        "object-src 'none'",
+        "base-uri 'self'",
+        "form-action 'self'",
+        "upgrade-insecure-requests",
+      ],
+    },
+  },
 });
