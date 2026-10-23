@@ -1,10 +1,13 @@
 ---
 import type { GetStaticPaths } from "astro";
+import { getImage } from "astro:assets";
+import JsonLd from "@/components/JsonLd.astro";
 import ProductCard from "@/components/ProductCard.astro";
 import ProductImage from "@/components/ProductImage.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { categoryUrl, getProducts } from "@/lib/catalog";
 import { formatPrice } from "@/lib/format";
+import { resolveProductImage } from "@/lib/images";
 import { TAG_LABELS, type Product } from "@/lib/products";
 
 export const getStaticPaths = (async () => {
@@ -24,9 +27,29 @@ interface Props {
 }
 
 const { product, related } = Astro.props;
+const resolved = resolveProductImage(product.image);
+const image = typeof resolved === "object" ? (await getImage({ src: resolved, width: 1200, format: "jpg" })).src : resolved;
+const url = new URL(Astro.url.pathname, Astro.site).href;
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: product.name,
+  description: product.description,
+  sku: product.id,
+  category: product.category,
+  ...(image && { image: new URL(image, Astro.site).href }),
+  offers: {
+    "@type": "Offer",
+    url,
+    price: product.price,
+    priceCurrency: "ARS",
+    availability: product.available ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+  },
+};
 ---
 
-<BaseLayout title={product.name} description={`${product.name} (${product.unit}): ${product.description}`}>
+<BaseLayout title={product.name} description={`${product.name} (${product.unit}): ${product.description}`} image={image} type="product">
+  <JsonLd slot="head" data={structuredData} />
   <section class="mx-auto max-w-6xl px-gutter py-10 md:px-6 md:py-14">
     <nav aria-label="Ruta" class="text-sm text-muted">
       <a href="/" class="underline">Inicio</a> / <a href={categoryUrl(product.categorySlug)} class="underline">{product.category}</a> / <span>{product.name}</span>

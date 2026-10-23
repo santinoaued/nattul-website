@@ -3,6 +3,7 @@ import { Picture } from "astro:assets";
 import almendras from "@/assets/products/almendras.jpg";
 import avena from "@/assets/products/avena.jpg";
 import cacao from "@/assets/products/cacao.jpg";
+import JsonLd from "@/components/JsonLd.astro";
 import ProductCard from "@/components/ProductCard.astro";
 import ProductImage from "@/components/ProductImage.astro";
 import { site } from "@/config/site";
@@ -11,6 +12,21 @@ import { categoryUrl, getCategories, getProducts } from "@/lib/catalog";
 
 const products = await getProducts();
 const categories = getCategories(products);
+const business = {
+  "@context": "https://schema.org",
+  "@graph": site.branches.map((branch) => ({
+    "@type": "LocalBusiness",
+    "@id": new URL(`/#${branch.id}`, Astro.site).href,
+    name: `${site.legalName}, ${branch.name}`,
+    description: site.description,
+    url: Astro.site?.href,
+    image: new URL("/og.jpg", Astro.site).href,
+    telephone: `+${site.whatsapp}`,
+    email: site.email,
+    address: { "@type": "PostalAddress", streetAddress: branch.address, addressLocality: branch.city, addressCountry: "AR" },
+    sameAs: Object.values(site.social),
+  })),
+};
 const featured = products.filter((product) => product.available && product.image).slice(0, 8);
 
 const steps = [
@@ -21,6 +37,7 @@ const steps = [
 ---
 
 <BaseLayout>
+  <JsonLd slot="head" data={business} />
   <section class="mx-auto grid max-w-6xl items-center gap-10 px-gutter py-12 md:grid-cols-2 md:px-6 md:py-20">
     <div>
       <p class="text-sm font-medium text-leaf">{site.branches.map((branch) => branch.city.split(",")[0]).join(" y ")}</p>

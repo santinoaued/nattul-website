@@ -10,7 +10,7 @@ const placeholder = (await getImage({ src: mark, width: 112, format: "webp" })).
 const categories = getCategories(await getProducts()).map(({ slug, name }) => ({ slug, name }));
 ---
 
-<BaseLayout title="Buscar productos" description="Buscá productos por nombre, categoría y características.">
+<BaseLayout title="Buscar productos" description="Buscá productos por nombre, categoría y características." noindex>
   <section class="mx-auto max-w-6xl px-gutter py-10 md:px-6 md:py-14">
     <h1 class="font-display text-4xl text-deep md:text-5xl">Buscar productos</h1>
     <div class="mt-8">
