@@ -9,7 +9,7 @@ test("builds one line per product without prices, URL-encoded", () => {
   assert.equal(truncated, false);
   assert.ok(url.startsWith("https://wa.me/5490000000000?text="));
   const text = decodeURIComponent(url.split("?text=")[1]);
-  assert.equal(text, "Hola! Quiero consultar precio y disponibilidad de estos productos:\n2 x Almendras & nueces (250 g)\n1 x Chía (250 g)");
+  assert.equal(text, "Hola! Quiero consultar precio y disponibilidad de estos productos:\nAlmendras & nueces: 500 g\nChía: 250 g");
   assert.doesNotMatch(text, /\$/);
 });
 

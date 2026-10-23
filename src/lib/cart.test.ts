@@ -13,9 +13,10 @@ test("adds, merges, changes quantity and removes", () => {
   cart.add(almendras);
   cart.add(almendras, 2);
   cart.add({ slug: "chia", name: "Chía", unit: "250 g" });
-  assert.equal(cart.count(), 4);
-  cart.setQty("almendras", 1);
   assert.equal(cart.count(), 2);
+  assert.equal(cart.items()[0].qty, 3);
+  cart.setQty("almendras", 1);
+  assert.equal(cart.items()[0].qty, 1);
   cart.setQty("chia", 0);
   assert.deepEqual(cart.items().map((item) => item.slug), ["almendras"]);
   cart.remove("almendras");

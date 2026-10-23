@@ -1,6 +1,7 @@
 import { href } from "@/lib/url";
 import { useEffect, useState } from "preact/hooks";
 import { getCart, MAX_QTY, type CartItem } from "@/lib/cart";
+import { formatAmount } from "@/lib/format";
 import { loadIndex } from "@/lib/search-index";
 import { buildOrderUrl } from "@/lib/whatsapp";
 
@@ -65,42 +66,14 @@ export default function CartView({ phone }: Props) {
                 <a href={href(`/productos/${item.slug}/`)} class="font-medium hover:underline">
                   {item.name}
                 </a>
-                <p class="text-sm text-muted">
-                  {item.unit}
-                </p>
+                {item.unit !== "unidad" && <p class="text-sm text-muted">De a {item.unit}</p>}
               </div>
-              <div class="flex items-center gap-1" role="group" aria-label={`Cantidad de ${item.name}`}>
-                <button
-                  type="button"
-                  class="inline-flex size-11 items-center justify-center rounded-full border border-line bg-paper"
-                  aria-label="Restar uno"
-                  onClick={() => cart.setQty(item.slug, item.qty - 1)}
-                >
-                  −
-                </button>
-                <input
-                  type="number"
-                  inputMode="numeric"
-                  min={1}
-                  max={MAX_QTY}
-                  value={item.qty}
-                  aria-label="Cantidad"
-                  class="h-11 w-14 rounded-full border border-line bg-paper text-center"
-                  onChange={(event) => {
-                    const qty = Number(event.currentTarget.value);
-                    if (Number.isFinite(qty)) cart.setQty(item.slug, qty);
-                  }}
-                />
-                <button
-                  type="button"
-                  class="inline-flex size-11 items-center justify-center rounded-full border border-line bg-paper"
-                  aria-label="Sumar uno"
-                  disabled={item.qty >= MAX_QTY}
-                  onClick={() => cart.setQty(item.slug, item.qty + 1)}
-                >
-                  +
-                </button>
-              </div>
+              <AmountStepper
+                label={item.name}
+                unit={item.unit}
+                qty={item.qty}
+                onChange={(qty) => cart.setQty(item.slug, qty)}
+              />
               <button type="button" class="h-11 px-2 text-sm text-forest underline" onClick={() => cart.remove(item.slug)}>
                 Quitar
               </button>
@@ -129,6 +102,43 @@ export default function CartView({ phone }: Props) {
           <p class="mt-3 text-xs text-muted">La lista es larga: el mensaje resume algunos productos y el detalle se completa por chat.</p>
         )}
       </aside>
+    </div>
+  );
+}
+
+interface StepperProps {
+  label: string;
+  unit: string;
+  qty: number;
+  onChange: (qty: number) => void;
+}
+
+/** Shows the total amount (750 g) instead of a pack count, stepping one pack at a time. */
+function AmountStepper({ label, unit, qty, onChange }: StepperProps) {
+  const step = unit === "unidad" ? "una unidad" : unit;
+  return (
+    <div class="inline-flex h-11 items-center rounded-full border border-line bg-paper" role="group" aria-label={`Cantidad de ${label}`}>
+      <button
+        type="button"
+        class="inline-flex size-11 items-center justify-center rounded-full text-lg text-forest disabled:text-line"
+        aria-label={`Restar ${step}`}
+        disabled={qty <= 1}
+        onClick={() => onChange(qty - 1)}
+      >
+        −
+      </button>
+      <output class="min-w-[5.5rem] text-center font-medium tabular-nums" aria-live="polite">
+        {formatAmount(unit, qty)}
+      </output>
+      <button
+        type="button"
+        class="inline-flex size-11 items-center justify-center rounded-full text-lg text-forest disabled:text-line"
+        aria-label={`Sumar ${step}`}
+        disabled={qty >= MAX_QTY}
+        onClick={() => onChange(qty + 1)}
+      >
+        +
+      </button>
     </div>
   );
 }

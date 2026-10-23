@@ -60,7 +60,8 @@ export function createCart(storage: Storage = safeStorage()) {
 
   return {
     items: read,
-    count: () => read().reduce((sum, item) => sum + item.qty, 0),
+    // Distinct products: qty is an amount (3 packs = 750 g), not a number of items.
+    count: () => read().length,
     add(item: Omit<CartItem, "qty">, qty = 1) {
       const items = read();
       const existing = items.find((entry) => entry.slug === item.slug);
