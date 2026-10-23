@@ -108,10 +108,17 @@ También falla si hay `id` o `slug` repetidos, o si falta alguna columna.
    - `SITE_URL`: la URL final del sitio (por ejemplo, `https://nattul.pages.dev` o el dominio propio).
    - `PRODUCTS_CSV_URL`: la planilla publicada como CSV (opcional; sin ella se usa el CSV demo).
    - `IMAGES_ORIGIN`: el dominio de las imágenes externas, si las hay.
+   - `BASE_PATH`: no hace falta en Cloudflare; solo se usa si el sitio vive dentro de una subcarpeta.
    - La versión de Node se toma de `.nvmrc`.
 4. Cada push a la rama principal publica una versión nueva. Para actualizar productos sin tocar el código, crear un **Deploy hook** y llamarlo cuando cambie la planilla.
 
 Los headers de seguridad están en `public/_headers`. La política de contenido (CSP) para scripts y estilos la genera Astro en cada página, con hashes.
+
+## Demo en GitHub Pages
+
+Mientras no esté en Cloudflare, la demo se publica en https://santinoaued.github.io/nattul-website/ con `.github/workflows/pages.yml`, en cada push a `main`. Ese workflow compila con `BASE_PATH=/nattul-website`, porque GitHub Pages sirve el sitio dentro de esa carpeta.
+
+GitHub Pages no aplica `public/_headers`, así que ahí solo rige la CSP de cada página. Cuando el sitio pase a Cloudflare, conviene borrar el workflow y desactivar Pages en la configuración del repositorio.
 
 ## Variables de entorno
 

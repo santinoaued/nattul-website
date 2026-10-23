@@ -1,3 +1,4 @@
+import { href } from "@/lib/url";
 import type { Tag } from "./products.ts";
 
 /** Shape of /productos.json (short keys keep the file small with 800+ products). */
@@ -16,7 +17,7 @@ export interface IndexEntry {
 let request: Promise<IndexEntry[]> | undefined;
 
 export function loadIndex(): Promise<IndexEntry[]> {
-  request ??= fetch("/productos.json").then((response) => {
+  request ??= fetch(href("/productos.json")).then((response) => {
     if (!response.ok) throw new Error(`No se pudo cargar el catálogo (${response.status})`);
     return response.json() as Promise<IndexEntry[]>;
   });

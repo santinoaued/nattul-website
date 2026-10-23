@@ -1,4 +1,5 @@
 ---
+import { href } from "@/lib/url";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
 
@@ -8,8 +9,8 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
     <h1 class="mt-4 font-display text-4xl text-deep">No encontramos esta página</h1>
     <p class="mt-4 text-muted">Puede que el producto ya no esté en el catálogo o que el enlace tenga un error.</p>
     <div class="mt-8 flex flex-wrap justify-center gap-3">
-      <a href="/buscar/" class="inline-flex h-12 items-center rounded-full bg-forest px-5 font-medium text-cream">Buscar productos</a>
-      <a href="/" class="inline-flex h-12 items-center rounded-full border border-forest px-5 font-medium text-forest">Ir al inicio</a>
+      <a href={href("/buscar/")} class="inline-flex h-12 items-center rounded-full bg-forest px-5 font-medium text-cream">Buscar productos</a>
+      <a href={href("/")} class="inline-flex h-12 items-center rounded-full border border-forest px-5 font-medium text-forest">Ir al inicio</a>
     </div>
   </section>
 </BaseLayout>

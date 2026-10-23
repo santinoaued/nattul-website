@@ -6,9 +6,12 @@ import { loadEnv } from "vite";
 const env = loadEnv(process.env.NODE_ENV ?? "production", process.cwd(), "");
 // Origin of external product images (e.g. Cloudflare R2), allowed in the CSP.
 const imagesOrigin = env.IMAGES_ORIGIN ?? "";
+// "/nattul-website" for the GitHub Pages demo; empty on Cloudflare Pages.
+const base = env.BASE_PATH || "/";
 
 export default defineConfig({
   site: env.SITE_URL || "https://nattul.pages.dev",
+  base,
   trailingSlash: "always",
   integrations: [preact()],
   // No Markdown code blocks on this site; Shiki would also need inline styles the CSP blocks.

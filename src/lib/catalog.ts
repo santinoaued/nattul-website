@@ -1,10 +1,11 @@
+import { href } from "@/lib/url";
 import { getCollection } from "astro:content";
 import { slugify, type Product } from "./products.ts";
 
 export const PAGE_SIZE = 12;
 
-export const productUrl = (slug: string) => `/productos/${slug}/`;
-export const categoryUrl = (slug: string) => `/categoria/${slug}/`;
+export const productUrl = (slug: string) => href(`/productos/${slug}/`);
+export const categoryUrl = (slug: string) => href(`/categoria/${slug}/`);
 
 export async function getProducts(): Promise<Product[]> {
   const entries = await getCollection("products");

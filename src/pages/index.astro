@@ -1,4 +1,5 @@
 ---
+import { href } from "@/lib/url";
 import { Picture } from "astro:assets";
 import almendras from "@/assets/products/almendras.jpg";
 import avena from "@/assets/products/avena.jpg";
@@ -16,11 +17,11 @@ const business = {
   "@context": "https://schema.org",
   "@graph": site.branches.map((branch) => ({
     "@type": "LocalBusiness",
-    "@id": new URL(`/#${branch.id}`, Astro.site).href,
+    "@id": new URL(href(`/#${branch.id}`), Astro.site).href,
     name: `${site.legalName}, ${branch.name}`,
     description: site.description,
-    url: Astro.site?.href,
-    image: new URL("/og.jpg", Astro.site).href,
+    url: new URL(href("/"), Astro.site).href,
+    image: new URL(href("/og.jpg"), Astro.site).href,
     telephone: `+${site.whatsapp}`,
     email: site.email,
     address: { "@type": "PostalAddress", streetAddress: branch.address, addressLocality: branch.city, addressCountry: "AR" },
@@ -45,7 +46,7 @@ const steps = [
       <p class="mt-5 max-w-xl text-lg leading-relaxed text-muted">{site.description}</p>
       <div class="mt-8 flex flex-wrap gap-3">
         <a href="#catalogo" class="inline-flex h-12 items-center rounded-full bg-forest px-5 font-medium text-cream">Ver el catálogo</a>
-        <a href="/como-comprar/" class="inline-flex h-12 items-center rounded-full border border-forest px-5 font-medium text-forest">Cómo comprar</a>
+        <a href={href("/como-comprar/")} class="inline-flex h-12 items-center rounded-full border border-forest px-5 font-medium text-forest">Cómo comprar</a>
       </div>
     </div>
     <div class="grid grid-cols-2 gap-3">
@@ -89,7 +90,7 @@ const steps = [
   <section class="mx-auto max-w-6xl px-gutter pb-14 md:px-6 md:pb-20">
     <div class="flex flex-wrap items-end justify-between gap-3">
       <h2 class="font-display text-3xl text-deep md:text-5xl">Destacados</h2>
-      <a href="/buscar/" class="text-sm font-medium text-forest underline">Ver todos los productos</a>
+      <a href={href("/buscar/")} class="text-sm font-medium text-forest underline">Ver todos los productos</a>
     </div>
     <div class="mt-8 grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 lg:grid-cols-4">
       {featured.map((product) => <ProductCard product={product} />)}

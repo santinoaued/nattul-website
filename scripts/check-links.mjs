@@ -3,6 +3,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 
 const DIST = "dist";
+const BASE = (process.env.BASE_PATH || "").replace(/\/$/, "");
 const htmlFiles = [];
 const walk = (dir) => {
   for (const name of readdirSync(dir)) {
@@ -14,7 +15,8 @@ const walk = (dir) => {
 walk(DIST);
 
 const exists = (url) => {
-  const path = decodeURIComponent(url.split(/[?#]/)[0]);
+  if (BASE && !url.startsWith(`${BASE}/`)) return false;
+  const path = decodeURIComponent(url.slice(BASE.length).split(/[?#]/)[0]);
   if (path === "" || path === "/") return existsSync(join(DIST, "index.html"));
   const target = join(DIST, path);
   return path.endsWith("/") ? existsSync(join(target, "index.html")) : existsSync(target);

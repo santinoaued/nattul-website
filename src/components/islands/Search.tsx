@@ -1,3 +1,4 @@
+import { href } from "@/lib/url";
 import { useEffect, useMemo, useState } from "preact/hooks";
 import { formatPrice, normalize } from "@/lib/format";
 import type { Tag } from "@/lib/products";
@@ -114,7 +115,7 @@ export default function Search({ categories, tags, placeholder }: Props) {
       <ul class="mt-4 grid min-h-[80vh] grid-cols-2 content-start gap-x-4 gap-y-10 md:grid-cols-3 lg:grid-cols-4">
         {results.slice(0, limit).map((entry) => (
           <li key={entry.s} class="flex flex-col">
-            <a href={`/productos/${entry.s}/`} class="group block">
+            <a href={href(`/productos/${entry.s}/`)} class="group block">
               {entry.i ? (
                 <img src={entry.i} alt="" width={300} height={300} loading="lazy" decoding="async" class="aspect-square w-full rounded-2xl bg-foam object-cover" />
               ) : (

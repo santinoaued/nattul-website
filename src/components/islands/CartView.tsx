@@ -1,3 +1,4 @@
+import { href } from "@/lib/url";
 import { useEffect, useState } from "preact/hooks";
 import { getCart, MAX_QTY, type CartItem } from "@/lib/cart";
 import { formatPrice } from "@/lib/format";
@@ -40,7 +41,7 @@ export default function CartView({ phone, minimumOrder }: Props) {
       <div class="rounded-card border border-line bg-paper p-6 text-center">
         <p class="font-display text-2xl text-deep">Tu pedido está vacío</p>
         <p class="mt-2 text-muted">Sumá productos desde el catálogo y volvé acá para enviarlo.</p>
-        <a href="/#catalogo" class="mt-6 inline-flex h-12 items-center rounded-full bg-forest px-5 font-medium text-cream">
+        <a href={href("/#catalogo")} class="mt-6 inline-flex h-12 items-center rounded-full bg-forest px-5 font-medium text-cream">
           Ver el catálogo
         </a>
       </div>
@@ -63,7 +64,7 @@ export default function CartView({ phone, minimumOrder }: Props) {
           {items.map((item) => (
             <li key={item.slug} class="flex flex-wrap items-center gap-x-4 gap-y-2 py-4">
               <div class="min-w-0 basis-full sm:basis-auto sm:flex-1">
-                <a href={`/productos/${item.slug}/`} class="font-medium hover:underline">
+                <a href={href(`/productos/${item.slug}/`)} class="font-medium hover:underline">
                   {item.name}
                 </a>
                 <p class="text-sm text-muted">
