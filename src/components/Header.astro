@@ -20,7 +20,7 @@ const links = [
       {links.map((link) => <a href={link.href} class="hover:text-forest">{link.label}</a>)}
     </nav>
 
-    <form action="/buscar/" method="get" role="search" class="ml-auto hidden md:block">
+    <form action="/buscar/" method="get" role="search" class="ml-auto hidden lg:block">
       <label for="header-search" class="sr-only">Buscar productos</label>
       <input
         id="header-search"
@@ -31,18 +31,18 @@ const links = [
       />
     </form>
 
-    <a href="/buscar/" class="ml-auto inline-flex size-11 items-center justify-center rounded-full border border-line md:hidden" aria-label="Buscar productos">
+    <a href="/buscar/" class="ml-auto inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-line lg:hidden" aria-label="Buscar productos">
       <svg aria-hidden="true" viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
     </a>
 
-    <a href="/carrito/" class="relative inline-flex h-11 items-center gap-2 rounded-full bg-forest px-4 text-sm font-medium text-cream">
+    <a href="/carrito/" class="relative inline-flex h-11 shrink-0 items-center gap-2 rounded-full bg-forest px-3 text-sm font-medium text-cream sm:px-4">
       <svg aria-hidden="true" viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 7h12l-1 13H7L6 7Z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg>
-      <span>Pedido</span>
+      <span class="sr-only sm:not-sr-only">Pedido</span>
       <span data-cart-count hidden class="rounded-full bg-cream px-2 text-xs text-deep">0</span>
     </a>
 
     <details class="relative md:hidden">
-      <summary class="inline-flex size-11 cursor-pointer list-none items-center justify-center rounded-full border border-line" aria-label="Menú">
+      <summary class="inline-flex size-11 shrink-0 cursor-pointer list-none items-center justify-center rounded-full border border-line" aria-label="Menú">
         <svg aria-hidden="true" viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
       </summary>
       <nav aria-label="Principal" class="absolute right-0 mt-2 flex w-52 flex-col rounded-card border border-line bg-paper p-2 shadow-lg">

@@ -8,7 +8,8 @@
     "preview": "astro preview",
     "check": "astro check",
     "test": "node --test",
-    "demo:800": "node scripts/generate-demo-products.mjs"
+    "demo:800": "node scripts/generate-demo-products.mjs",
+    "check:links": "node scripts/check-links.mjs"
   },
   "dependencies": {
     "@astrojs/preact": "^6.1.1",

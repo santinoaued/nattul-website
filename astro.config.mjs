@@ -11,6 +11,8 @@ export default defineConfig({
   site: env.SITE_URL || "https://nattul.pages.dev",
   trailingSlash: "always",
   integrations: [preact()],
+  // No Markdown code blocks on this site; Shiki would also need inline styles the CSP blocks.
+  markdown: { syntaxHighlight: false },
   vite: { plugins: [tailwindcss()] },
   security: {
     // Emits a per-page CSP <meta> with hashes for Astro's inline island scripts and styles.

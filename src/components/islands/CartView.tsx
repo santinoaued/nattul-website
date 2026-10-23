@@ -62,7 +62,7 @@ export default function CartView({ phone, minimumOrder }: Props) {
         <ul class="divide-y divide-line border-y border-line">
           {items.map((item) => (
             <li key={item.slug} class="flex flex-wrap items-center gap-x-4 gap-y-2 py-4">
-              <div class="min-w-0 flex-1">
+              <div class="min-w-0 basis-full sm:basis-auto sm:flex-1">
                 <a href={`/productos/${item.slug}/`} class="font-medium hover:underline">
                   {item.name}
                 </a>
@@ -102,7 +102,7 @@ export default function CartView({ phone, minimumOrder }: Props) {
                   +
                 </button>
               </div>
-              <p class="w-24 text-right font-medium">{formatPrice(item.price * item.qty)}</p>
+              <p class="ml-auto w-24 text-right font-medium sm:ml-0">{formatPrice(item.price * item.qty)}</p>
               <button type="button" class="h-11 px-2 text-sm text-forest underline" onClick={() => cart.remove(item.slug)}>
                 Quitar
               </button>
