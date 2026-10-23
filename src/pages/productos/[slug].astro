@@ -32,7 +32,7 @@ const { product, related } = Astro.props;
       <a href="/" class="underline">Inicio</a> / <a href={categoryUrl(product.categorySlug)} class="underline">{product.category}</a> / <span>{product.name}</span>
     </nav>
     <div class="mt-6 grid gap-8 md:grid-cols-2 md:gap-12">
-      <ProductImage src={product.image} alt={product.name} eager />
+      <ProductImage src={product.image} alt={product.name} eager large />
       <div>
         <h1 class="font-display text-4xl leading-tight text-deep md:text-5xl">{product.name}</h1>
         <p class="mt-2 text-muted">{product.unit}{product.subcategory ? `, ${product.subcategory}` : ""}</p>

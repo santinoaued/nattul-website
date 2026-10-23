@@ -6,6 +6,7 @@ import { loadIndex, type IndexEntry } from "@/lib/search-index";
 interface Props {
   categories: { slug: string; name: string }[];
   tags: Record<Tag, string>;
+  placeholder: string;
 }
 
 const STEP = 48;
@@ -15,7 +16,7 @@ function readParams() {
   return { q: params.get("q") ?? "", cat: params.get("categoria") ?? "", tags: params.getAll("etiqueta") as Tag[] };
 }
 
-export default function Search({ categories, tags }: Props) {
+export default function Search({ categories, tags, placeholder }: Props) {
   const [index, setIndex] = useState<IndexEntry[] | null>(null);
   const [error, setError] = useState(false);
   const [query, setQuery] = useState("");
@@ -110,15 +111,15 @@ export default function Search({ categories, tags }: Props) {
             : `${results.length} producto${results.length === 1 ? "" : "s"}`}
       </p>
 
-      <ul class="mt-4 grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 lg:grid-cols-4">
+      <ul class="mt-4 grid min-h-[80vh] grid-cols-2 content-start gap-x-4 gap-y-10 md:grid-cols-3 lg:grid-cols-4">
         {results.slice(0, limit).map((entry) => (
           <li key={entry.s} class="flex flex-col">
             <a href={`/productos/${entry.s}/`} class="group block">
               {entry.i ? (
-                <img src={entry.i} alt={entry.n} width={600} height={600} loading="lazy" decoding="async" class="aspect-square w-full rounded-2xl bg-foam object-cover" />
+                <img src={entry.i} alt="" width={300} height={300} loading="lazy" decoding="async" class="aspect-square w-full rounded-2xl bg-foam object-cover" />
               ) : (
                 <div class="flex aspect-square w-full items-center justify-center rounded-2xl bg-forest">
-                  <img src="/brand/mark-cream.png" alt="" width={164} height={164} class="size-14 opacity-80" />
+                  <img src={placeholder} alt="" width={56} height={56} class="size-14 opacity-80" />
                 </div>
               )}
               <h2 class="mt-3 font-display text-lg leading-snug text-deep group-hover:underline">{entry.n}</h2>

@@ -1,29 +1,43 @@
 ---
+import { Image, Picture } from "astro:assets";
+import mark from "@/assets/brand/mark-cream.png";
+import { resolveProductImage } from "@/lib/images";
+
 interface Props {
   src?: string;
   alt: string;
-  class?: string;
   eager?: boolean;
+  large?: boolean;
 }
 
-const { src, alt, class: className = "", eager = false } = Astro.props;
+const { src, alt, eager = false, large = false } = Astro.props;
+const image = resolveProductImage(src);
+const widths = large ? [400, 800] : [300, 600];
+const sizes = large
+  ? "(min-width: 768px) 50vw, 100vw"
+  : "(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw";
+const classes = "aspect-square w-full rounded-2xl bg-foam object-cover";
 ---
 
 {
-  src ? (
-    <img
-      src={src}
+  typeof image === "object" ? (
+    <Picture
+      src={image}
       alt={alt}
-      width="600"
-      height="600"
+      formats={["avif", "webp"]}
+      widths={widths}
+      sizes={sizes}
       loading={eager ? "eager" : "lazy"}
-      decoding="async"
-      class:list={["aspect-square w-full rounded-2xl bg-foam object-cover", className]}
+      fetchpriority={eager ? "high" : "auto"}
+      class={classes}
     />
+  ) : typeof image === "string" ? (
+    // shortcut: external images are not resized; upload pre-sized WebP (about 600 px) to storage.
+    <img src={image} alt={alt} width="600" height="600" loading={eager ? "eager" : "lazy"} decoding="async" class={classes} />
   ) : (
-    <div class:list={["flex aspect-square w-full items-center justify-center rounded-2xl bg-forest", className]}>
-      <img src="/brand/mark-cream.png" alt="" width="164" height="164" class="size-14 opacity-80" />
-      <span class="sr-only">{alt}: sin foto</span>
+    <div class="flex aspect-square w-full items-center justify-center rounded-2xl bg-forest">
+      <Image src={mark} alt="" width={56} densities={[1, 2]} class="size-14 opacity-80" />
+      {alt && <span class="sr-only">{alt}: sin foto</span>}
     </div>
   )
 }

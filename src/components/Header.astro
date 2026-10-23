@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+import logo from "@/assets/brand/logo.png";
 import { site } from "@/config/site";
 
 const links = [
@@ -11,7 +13,7 @@ const links = [
 <header class="sticky top-0 z-40 border-b border-line bg-cream/95 backdrop-blur">
   <div class="mx-auto flex max-w-6xl items-center gap-3 px-gutter py-3 md:gap-6 md:px-6">
     <a href="/" class="shrink-0">
-      <img src="/brand/logo.png" alt={`${site.legalName}, ir al inicio`} width="464" height="182" class="h-10 w-auto md:h-12" />
+      <Image src={logo} alt={`${site.legalName}, ir al inicio`} width={122} densities={[1, 2]} loading="eager" class="h-10 w-auto md:h-12" />
     </a>
 
     <nav aria-label="Principal" class="hidden gap-5 text-sm font-medium md:flex">

@@ -1,9 +1,12 @@
 ---
+import { getImage } from "astro:assets";
+import mark from "@/assets/brand/mark-cream.png";
 import Search from "@/components/islands/Search";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCategories, getProducts } from "@/lib/catalog";
 import { TAG_LABELS } from "@/lib/products";
 
+const placeholder = (await getImage({ src: mark, width: 112, format: "webp" })).src;
 const categories = getCategories(await getProducts()).map(({ slug, name }) => ({ slug, name }));
 ---
 
@@ -11,7 +14,7 @@ const categories = getCategories(await getProducts()).map(({ slug, name }) => ({
   <section class="mx-auto max-w-6xl px-gutter py-10 md:px-6 md:py-14">
     <h1 class="font-display text-4xl text-deep md:text-5xl">Buscar productos</h1>
     <div class="mt-8">
-      <Search client:load categories={categories} tags={TAG_LABELS} />
+      <Search client:load categories={categories} tags={TAG_LABELS} placeholder={placeholder} />
     </div>
   </section>
 </BaseLayout>
