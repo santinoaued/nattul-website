@@ -1,0 +1,27 @@
+---
+import { site } from "@/config/site";
+
+const links = [
+  { href: "/", label: "Inicio" },
+  { href: "/#catalogo", label: "Catálogo" },
+  { href: "/#sucursales", label: "Sucursales" },
+];
+---
+
+<header class="sticky top-0 z-40 border-b border-line bg-cream/95 backdrop-blur">
+  <div class="mx-auto flex max-w-6xl items-center gap-4 px-gutter py-3 md:px-6">
+    <a href="/" class="shrink-0">
+      <img src="/brand/logo.png" alt={site.legalName} width="464" height="182" class="h-12 w-auto md:h-14" />
+    </a>
+    <nav aria-label="Principal" class="ml-auto flex items-center gap-5 text-sm font-medium">
+      {links.map((link) => <a href={link.href} class="hover:text-forest">{link.label}</a>)}
+    </nav>
+  </div>
+  {
+    site.demoMode && (
+      <p class="bg-deep px-gutter py-2 text-center text-xs text-cream">
+        Sitio de demostración: los productos y precios son de ejemplo.
+      </p>
+    )
+  }
+</header>

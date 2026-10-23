@@ -1,0 +1,41 @@
+---
+import { site } from "@/config/site";
+
+// Wikimedia Commons photos: CC BY-SA requires attribution.
+const photoCredits = [
+  { author: "Siarhei Besarab", href: "https://commons.wikimedia.org/wiki/File:Traditional_mate_set_calabash_gourd_with_La_Merced_yerba_mate.jpg" },
+  { author: "André Helbig", href: "https://commons.wikimedia.org/wiki/File:Gr%C3%BCner_Mate_geschnitten.jpg" },
+  { author: "ChimaAddicted", href: "https://commons.wikimedia.org/wiki/File:Erva_mate_chimarrao_in_big_cuia.jpg" },
+  { author: "SKopp", href: "https://commons.wikimedia.org/wiki/File:Blanc-manger_with_cocoa_powder_and_almonds.jpg" },
+  { author: "Misterneedlemouse", href: "https://commons.wikimedia.org/wiki/File:Annatto_Seeds.jpg" },
+  { author: "Papathanasiouk", href: "https://commons.wikimedia.org/wiki/File:Trail_Mix.JPG" },
+];
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-line">
+  <div class="mx-auto grid max-w-6xl gap-6 px-gutter py-8 text-sm text-muted md:grid-cols-2 md:px-6">
+    <div>
+      <img src="/brand/logo.png" alt="" width="464" height="182" class="h-10 w-auto" />
+      <p class="mt-3 max-w-sm">{site.tagline}</p>
+    </div>
+    <div class="space-y-3 text-xs md:text-right">
+      <p>
+        Fotos de Wikimedia Commons:{" "}
+        {
+          photoCredits.map((credit, i) => (
+            <>
+              <a href={credit.href} class="underline" target="_blank" rel="noopener noreferrer">{credit.author}</a>
+              {i < photoCredits.length - 1 ? ", " : "."}
+            </>
+          ))
+        }{" "}
+        Licencias CC BY-SA y CC0.
+      </p>
+      <p>
+        © {year}{" "}
+        <a href="https://santinoaued.github.io" class="underline" target="_blank" rel="noopener noreferrer">Santino Aued</a>
+      </p>
+    </div>
+  </div>
+</footer>

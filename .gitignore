@@ -1,8 +1,19 @@
+# dependencies
 node_modules/
-.vercel/
+
+# build output
 dist/
-.tanstack/
-.node_modules.lock
+.astro/
+
+# environment
 .env
 .env.*
 !.env.example
+
+# generated demo data
+data/productos-800.csv
+
+# logs and OS files
+npm-debug.log*
+.DS_Store
+Thumbs.db

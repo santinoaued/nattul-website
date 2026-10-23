@@ -1,0 +1,29 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site } from "@/config/site";
+
+const products = await getCollection("products");
+const categories = Map.groupBy(products, (product) => product.data.category);
+---
+
+<BaseLayout>
+  <section class="mx-auto max-w-6xl px-gutter py-12 md:px-6 md:py-20">
+    <h1 class="font-display text-4xl leading-tight text-deep md:text-6xl">{site.tagline}</h1>
+    <p class="mt-5 max-w-xl text-lg leading-relaxed text-muted">{site.description}</p>
+  </section>
+
+  <section id="catalogo" class="mx-auto max-w-6xl px-gutter pb-section md:px-6">
+    <h2 class="font-display text-3xl text-deep">Catálogo</h2>
+    <ul class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        [...categories].map(([name, items]) => (
+          <li class="rounded-card border border-line bg-paper p-5">
+            <p class="font-display text-2xl text-deep">{name}</p>
+            <p class="mt-1 text-sm text-muted">{items.length} productos</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

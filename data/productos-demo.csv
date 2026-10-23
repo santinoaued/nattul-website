@@ -1,0 +1,51 @@
+id,slug,nombre,categoria,subcategoria,precio,unidad,descripcion,imagen,etiquetas,disponible
+NAT-0001,,Almendras enteras,Frutos secos,Almendras y nueces,2400,250 g,"Almendras con piel, ideales para snack, leches vegetales o picadas.",/products/almendras.jpg,sin-tacc|vegano,si
+NAT-0002,,Almendras peladas,Frutos secos,Almendras y nueces,2700,250 g,"Sin piel, listas para repostería y para hacer harina de almendras.",,sin-tacc|vegano,si
+NAT-0003,,Nueces mariposa,Frutos secos,Almendras y nueces,2600,250 g,"Nueces partidas en mariposa, para el desayuno o ensaladas.",/products/nueces.jpg,sin-tacc|vegano,si
+NAT-0004,,Castañas de cajú,Frutos secos,Castañas,3200,250 g,Suaves y dulces. Ricas tostadas un minuto en sartén.,/products/caju.jpg,sin-tacc|vegano,si
+NAT-0005,,Castañas de Pará,Frutos secos,Castañas,3500,250 g,Fuente natural de selenio. Una o dos por día alcanzan.,,sin-tacc|vegano,si
+NAT-0006,,Maní tostado sin sal,Frutos secos,Maní,900,500 g,"Tostado, sin sal agregada. Para picar o hacer pasta de maní.",,sin-tacc|vegano|sin-sal,si
+NAT-0007,,Maní con cáscara,Frutos secos,Maní,1100,500 g,"Tostado con cáscara, el clásico de siempre.",,sin-tacc|vegano,si
+NAT-0008,,Pasas de uva morochas,Frutos secos,Frutas deshidratadas,800,250 g,"Pasas sin semilla, para budines, granolas y ensaladas.",,sin-tacc|vegano,si
+NAT-0009,,Pasas de uva rubias,Frutos secos,Frutas deshidratadas,950,250 g,Más suaves y jugosas que las morochas.,,sin-tacc|vegano,si
+NAT-0010,,Ciruelas sin carozo,Frutos secos,Frutas deshidratadas,1300,250 g,"Ciruelas desecadas, tiernas y sin carozo.",,sin-tacc|vegano,si
+NAT-0011,,Dátiles,Frutos secos,Frutas deshidratadas,1900,250 g,Dulzor natural para licuados y postres sin azúcar agregada.,,sin-tacc|vegano|sin-azucar,si
+NAT-0012,,Arándanos deshidratados,Frutos secos,Frutas deshidratadas,2100,250 g,"Arándanos rojos, ideales para granola y yogur.",,sin-tacc|vegano,si
+NAT-0013,,Mix de frutos secos,Frutos secos,Mixes,2300,250 g,"Almendras, nueces, castañas, maní y pasas en un solo paquete.",/products/mix-de-snacks.jpg,sin-tacc|vegano,si
+NAT-0014,,Mix energético,Frutos secos,Mixes,2500,250 g,Frutos secos con arándanos y semillas de zapallo.,,sin-tacc|vegano,si
+NAT-0015,,Avellanas,Frutos secos,Almendras y nueces,3800,250 g,"Avellanas enteras, tostadas suavemente.",,sin-tacc|vegano,no
+NAT-0016,,Semillas de chía,Semillas,Semillas,1200,250 g,Hidratadas forman un gel ideal para pudding o para reemplazar huevo.,/products/chia.jpg,sin-tacc|vegano|organico,si
+NAT-0017,,Semillas de zapallo,Semillas,Semillas,1800,250 g,"Peladas, para ensaladas, panes o tostadas en sartén.",/products/zapallo.jpg,sin-tacc|vegano,si
+NAT-0018,,Semillas de girasol peladas,Semillas,Semillas,700,250 g,"Para sumar a ensaladas, panes y granolas.",,sin-tacc|vegano,si
+NAT-0019,,Semillas de lino,Semillas,Semillas,600,250 g,Molidas se aprovechan mejor. Fuente de fibra.,,sin-tacc|vegano,si
+NAT-0020,,Semillas de sésamo blanco,Semillas,Semillas,900,250 g,"Para panes, rebozados y aderezos.",,sin-tacc|vegano,si
+NAT-0021,,Mix de semillas,Semillas,Mixes,1100,250 g,"Chía, lino, girasol, sésamo y zapallo.",,sin-tacc|vegano,si
+NAT-0022,,Avena arrollada,Cereales y legumbres,Cereales,700,500 g,"Gruesa, para porridge, budines y galletitas.",/products/avena.jpg,vegano|integral,si
+NAT-0023,,Avena instantánea,Cereales y legumbres,Cereales,750,500 g,"Fina, se hidrata rápido. Ideal para licuados.",,vegano|integral,si
+NAT-0024,,Quinoa blanca,Cereales y legumbres,Cereales,2200,500 g,Lavada y lista para cocinar en quince minutos.,/products/quinoa.jpg,sin-tacc|vegano,si
+NAT-0025,,Arroz integral largo fino,Cereales y legumbres,Cereales,1300,1 kg,"Grano entero, más fibra y sabor que el blanco.",,sin-tacc|vegano|integral,si
+NAT-0026,,Granola sin azúcar,Cereales y legumbres,Cereales,1900,500 g,"Avena, frutos secos y semillas, endulzada con dátiles.",,vegano|sin-azucar,si
+NAT-0027,,Lentejas,Cereales y legumbres,Legumbres,1100,500 g,"Lentejas medianas para guisos, hamburguesas y ensaladas.",/products/lentejas.jpg,sin-tacc|vegano,si
+NAT-0028,,Garbanzos,Cereales y legumbres,Legumbres,1200,500 g,"Para hummus, guisos y garbanzos tostados.",,sin-tacc|vegano,si
+NAT-0029,,Porotos negros,Cereales y legumbres,Legumbres,1250,500 g,Remojo de una noche y una hora de cocción.,,sin-tacc|vegano,si
+NAT-0030,,Harina integral,Harinas,Harinas,600,1 kg,Harina de trigo integral para panes y pizzas caseras.,,vegano|integral,si
+NAT-0031,,Harina de almendras,Harinas,Harinas,4200,500 g,"Almendras molidas finas, para repostería sin TACC.",,sin-tacc|vegano,si
+NAT-0032,,Harina de garbanzos,Harinas,Harinas,1300,500 g,"Para fainá, tortillas y rebozados sin huevo.",,sin-tacc|vegano,si
+NAT-0033,,Harina de arroz,Harinas,Harinas,900,500 g,Base para premezclas sin TACC.,,sin-tacc|vegano,si
+NAT-0034,,Premezcla sin TACC,Harinas,Premezclas,1500,1 kg,Premezcla para panificados aptos para celíacos.,,sin-tacc,si
+NAT-0035,,Cacao amargo,Superalimentos,Polvos,1800,250 g,"Cacao en polvo sin azúcar, para cocina y bebidas.",/products/cacao.jpg,sin-tacc|vegano|sin-azucar,si
+NAT-0036,,Cúrcuma molida,Superalimentos,Especias,900,100 g,"Molida, de color intenso. Combina con pimienta negra.",/products/curcuma.jpg,sin-tacc|vegano,si
+NAT-0037,,Urucum en semillas,Superalimentos,Especias,700,100 g,Semillas para dar color natural a guisos y arroces.,/products/urucum.jpg,sin-tacc|vegano,si
+NAT-0038,,Maca en polvo,Superalimentos,Polvos,2600,100 g,"Raíz andina molida, para licuados y yogur.",,sin-tacc|vegano|organico,si
+NAT-0039,,Spirulina en polvo,Superalimentos,Polvos,3900,100 g,Alga en polvo de sabor intenso. Una cucharadita por día.,,sin-tacc|vegano,si
+NAT-0040,,Gelatina sin sabor,Superalimentos,Suplementos,1200,100 g,"Para postres, gomitas caseras y espesar preparaciones.",/products/gelatina-sin-sabor.jpg,sin-tacc|sin-azucar,si
+NAT-0041,,Yerba con palo,Yerba e infusiones,Yerba,2900,1 kg,"Equilibrada, de estacionamiento medio. La de todos los días.",/products/yerba-con-palo.jpg,sin-tacc,si
+NAT-0042,,Yerba despalada,Yerba e infusiones,Yerba,1700,500 g,"Sin palo, más intensa y rendidora.",/products/yerba-despalada.jpg,sin-tacc,si
+NAT-0043,,Yerba orgánica,Yerba e infusiones,Yerba,2100,500 g,Cultivada sin agroquímicos. Sabor más verde y limpio.,/products/yerba-organica.jpg,sin-tacc|organico,si
+NAT-0044,,Yerba compuesta con hierbas,Yerba e infusiones,Yerba,1800,500 g,"Con menta, peperina y burrito.",,sin-tacc,si
+NAT-0045,,Té verde en hebras,Yerba e infusiones,Infusiones,1600,100 g,"Hebras enteras. Infusionar a 80 °C, no hirviendo.",,sin-tacc|vegano,si
+NAT-0046,,Manzanilla en flor,Yerba e infusiones,Infusiones,900,100 g,Flores enteras para infusión digestiva.,,sin-tacc|vegano,si
+NAT-0047,,Azúcar mascabo,Endulzantes,Endulzantes,1100,500 g,"Azúcar integral de caña, sin refinar.",,sin-tacc|vegano,si
+NAT-0048,,Miel pura,Endulzantes,Endulzantes,2800,500 g,Miel envasada en frasco de vidrio.,,sin-tacc,si
+NAT-0049,,Stevia en hojas,Endulzantes,Endulzantes,1000,100 g,Hojas secas para endulzar infusiones sin calorías.,,sin-tacc|vegano|sin-azucar,si
+NAT-0050,,Eritritol,Endulzantes,Endulzantes,2300,250 g,"Endulzante sin calorías, apto repostería.",,sin-tacc|vegano|sin-azucar,no

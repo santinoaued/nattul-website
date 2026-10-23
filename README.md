@@ -1,6 +1,8 @@
-# Nattul Almacén Natural
+# Nattul: catálogo online
 
-Sitio de Nattul: catálogo a granel, sucursales en Paraná y Oro Verde, y pedidos por WhatsApp.
+Catálogo de una dietética con pedido por WhatsApp. Sitio estático hecho con Astro, pensado para Cloudflare Pages.
+
+En construcción: la documentación completa se agrega en la fase 7.
 
 ## Desarrollo
 
@@ -9,23 +11,18 @@ npm install
 npm run dev
 ```
 
-El servidor queda en `http://localhost:8080`.
+## Productos
 
-## Build para GitHub Pages
+Los productos salen de un CSV con estas columnas:
 
-```bash
-PAGES_BUILD=1 npx vite build
-```
+`id, slug, nombre, categoria, subcategoria, precio, unidad, descripcion, imagen, etiquetas, disponible`
 
-El resultado queda en `.vercel/output/static`. Por defecto, las rutas asumen que el sitio vive en `/nattul-website/`. Para probar en raíz, usá `PAGES_BASE=/`.
+- Si `PRODUCTS_CSV_URL` está definida, se lee la planilla de Google Sheets publicada como CSV.
+- Si no, se lee `PRODUCTS_CSV_PATH` (por defecto `data/productos-demo.csv`).
+- `npm run demo:800` genera `data/productos-800.csv` con 800 productos sintéticos para pruebas de rendimiento.
 
-## Publicación
+Los datos se validan durante el build. Si una fila es inválida, el build falla e indica el producto y el campo.
 
-Cada push a `main` ejecuta `.github/workflows/pages.yml`, que compila el sitio y lo publica en GitHub Pages. En la configuración del repo, en **Settings → Pages**, la fuente tiene que ser **GitHub Actions**.
+## Datos del negocio
 
-## Dónde editar
-
-- Productos, precios y categorías: `src/data/catalog.ts`.
-- Sucursales, teléfonos y redes: `src/data/catalog.ts` (`branches`, `socials`).
-- Diseño y secciones: `src/components/nattul/site.tsx`.
-- Colores y tipografía: `src/styles.css`.
+Están en `src/config/site.ts`. Los valores marcados como PLACEHOLDER se reemplazan con los datos reales del cliente.
