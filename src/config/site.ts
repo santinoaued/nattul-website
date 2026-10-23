@@ -24,8 +24,8 @@ export const site = {
       id: "sucursal-1",
       // PLACEHOLDER
       name: "Sucursal Paraná",
-      // PLACEHOLDER: WhatsApp en formato internacional sin "+", espacios ni guiones.
-      whatsapp: "5490000000001",
+      // WhatsApp en formato internacional sin "+", espacios ni guiones.
+      whatsapp: "5493436124634",
       address: "Dirección a confirmar",
       city: "Paraná, Entre Ríos",
       hours: "Lunes a sábado, horario a confirmar",
@@ -36,8 +36,8 @@ export const site = {
       id: "sucursal-2",
       // PLACEHOLDER
       name: "Sucursal Oro Verde",
-      // PLACEHOLDER: WhatsApp en formato internacional sin "+", espacios ni guiones.
-      whatsapp: "5490000000002",
+      // WhatsApp en formato internacional sin "+", espacios ni guiones.
+      whatsapp: "5493435050098",
       address: "Dirección a confirmar",
       city: "Oro Verde, Entre Ríos",
       hours: "Lunes a sábado, horario a confirmar",
