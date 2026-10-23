@@ -11,8 +11,10 @@
     "demo:800": "node scripts/generate-demo-products.mjs"
   },
   "dependencies": {
+    "@astrojs/preact": "^6.1.1",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.4.2",
+    "preact": "^11.0.1",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {

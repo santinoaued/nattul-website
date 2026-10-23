@@ -1,0 +1,42 @@
+---
+import { site } from "@/config/site";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const whatsappUrl = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent("Hola! Quería hacer una consulta.")}`;
+---
+
+<BaseLayout title="Contacto y sucursales" description="Sucursales, horarios, WhatsApp y redes de Nattul.">
+  <section class="mx-auto max-w-6xl px-gutter py-10 md:px-6 md:py-14">
+    <h1 class="font-display text-4xl text-deep md:text-5xl">Contacto y sucursales</h1>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" class="inline-flex h-12 items-center rounded-full bg-forest px-5 font-medium text-cream">Escribinos por WhatsApp</a>
+      <a href={`mailto:${site.email}`} class="inline-flex h-12 items-center rounded-full border border-forest px-5 font-medium text-forest">{site.email}</a>
+    </div>
+
+    <div class="mt-12 grid gap-6 md:grid-cols-2">
+      {
+        site.branches.map((branch) => (
+          <article class="rounded-card bg-deep p-6 text-cream">
+            <h2 class="font-display text-3xl">{branch.name}</h2>
+            <address class="mt-3 not-italic text-foam">
+              {branch.address}
+              <br />
+              {branch.city}
+            </address>
+            <p class="mt-3 text-foam">{branch.hours}</p>
+            {branch.mapsUrl && (
+              <a href={branch.mapsUrl} target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex h-11 items-center rounded-full border border-foam px-4 text-sm font-medium">
+                Cómo llegar
+              </a>
+            )}
+          </article>
+        ))
+      }
+    </div>
+
+    <ul class="mt-12 flex flex-wrap gap-4 text-sm font-medium">
+      <li><a href={site.social.instagram} target="_blank" rel="noopener noreferrer" class="text-forest underline">Instagram</a></li>
+      <li><a href={site.social.facebook} target="_blank" rel="noopener noreferrer" class="text-forest underline">Facebook</a></li>
+    </ul>
+  </section>
+</BaseLayout>

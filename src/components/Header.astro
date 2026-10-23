@@ -2,26 +2,55 @@
 import { site } from "@/config/site";
 
 const links = [
-  { href: "/", label: "Inicio" },
   { href: "/#catalogo", label: "Catálogo" },
-  { href: "/#sucursales", label: "Sucursales" },
+  { href: "/como-comprar/", label: "Cómo comprar" },
+  { href: "/contacto/", label: "Contacto" },
 ];
 ---
 
 <header class="sticky top-0 z-40 border-b border-line bg-cream/95 backdrop-blur">
-  <div class="mx-auto flex max-w-6xl items-center gap-4 px-gutter py-3 md:px-6">
+  <div class="mx-auto flex max-w-6xl items-center gap-3 px-gutter py-3 md:gap-6 md:px-6">
     <a href="/" class="shrink-0">
-      <img src="/brand/logo.png" alt={site.legalName} width="464" height="182" class="h-12 w-auto md:h-14" />
+      <img src="/brand/logo.png" alt={`${site.legalName}, ir al inicio`} width="464" height="182" class="h-10 w-auto md:h-12" />
     </a>
-    <nav aria-label="Principal" class="ml-auto flex items-center gap-5 text-sm font-medium">
+
+    <nav aria-label="Principal" class="hidden gap-5 text-sm font-medium md:flex">
       {links.map((link) => <a href={link.href} class="hover:text-forest">{link.label}</a>)}
     </nav>
+
+    <form action="/buscar/" method="get" role="search" class="ml-auto hidden md:block">
+      <label for="header-search" class="sr-only">Buscar productos</label>
+      <input
+        id="header-search"
+        name="q"
+        type="search"
+        placeholder="Buscar productos"
+        class="h-10 w-56 rounded-full border border-line bg-paper px-4 text-sm"
+      />
+    </form>
+
+    <a href="/buscar/" class="ml-auto inline-flex size-11 items-center justify-center rounded-full border border-line md:hidden" aria-label="Buscar productos">
+      <svg aria-hidden="true" viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+    </a>
+
+    <a href="/carrito/" class="relative inline-flex h-11 items-center gap-2 rounded-full bg-forest px-4 text-sm font-medium text-cream">
+      <svg aria-hidden="true" viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 7h12l-1 13H7L6 7Z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg>
+      <span>Pedido</span>
+      <span data-cart-count hidden class="rounded-full bg-cream px-2 text-xs text-deep">0</span>
+    </a>
+
+    <details class="relative md:hidden">
+      <summary class="inline-flex size-11 cursor-pointer list-none items-center justify-center rounded-full border border-line" aria-label="Menú">
+        <svg aria-hidden="true" viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+      </summary>
+      <nav aria-label="Principal" class="absolute right-0 mt-2 flex w-52 flex-col rounded-card border border-line bg-paper p-2 shadow-lg">
+        {links.map((link) => <a href={link.href} class="rounded-2xl px-3 py-3 hover:bg-foam">{link.label}</a>)}
+      </nav>
+    </details>
   </div>
   {
     site.demoMode && (
-      <p class="bg-deep px-gutter py-2 text-center text-xs text-cream">
-        Sitio de demostración: los productos y precios son de ejemplo.
-      </p>
+      <p class="bg-deep px-gutter py-2 text-center text-xs text-cream">Sitio de demostración: los productos y precios son de ejemplo.</p>
     )
   }
 </header>

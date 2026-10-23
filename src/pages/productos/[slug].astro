@@ -1,0 +1,81 @@
+---
+import type { GetStaticPaths } from "astro";
+import ProductCard from "@/components/ProductCard.astro";
+import ProductImage from "@/components/ProductImage.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { categoryUrl, getProducts } from "@/lib/catalog";
+import { formatPrice } from "@/lib/format";
+import { TAG_LABELS, type Product } from "@/lib/products";
+
+export const getStaticPaths = (async () => {
+  const products = await getProducts();
+  return products.map((product) => ({
+    params: { slug: product.slug },
+    props: {
+      product,
+      related: products.filter((item) => item.categorySlug === product.categorySlug && item.slug !== product.slug).slice(0, 4),
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  product: Product;
+  related: Product[];
+}
+
+const { product, related } = Astro.props;
+---
+
+<BaseLayout title={product.name} description={`${product.name} (${product.unit}): ${product.description}`}>
+  <section class="mx-auto max-w-6xl px-gutter py-10 md:px-6 md:py-14">
+    <nav aria-label="Ruta" class="text-sm text-muted">
+      <a href="/" class="underline">Inicio</a> / <a href={categoryUrl(product.categorySlug)} class="underline">{product.category}</a> / <span>{product.name}</span>
+    </nav>
+    <div class="mt-6 grid gap-8 md:grid-cols-2 md:gap-12">
+      <ProductImage src={product.image} alt={product.name} eager />
+      <div>
+        <h1 class="font-display text-4xl leading-tight text-deep md:text-5xl">{product.name}</h1>
+        <p class="mt-2 text-muted">{product.unit}{product.subcategory ? `, ${product.subcategory}` : ""}</p>
+        <p class="mt-6 font-display text-3xl text-deep">{formatPrice(product.price)}</p>
+        <p class="mt-6 max-w-prose leading-relaxed">{product.description}</p>
+        {
+          product.tags.length > 0 && (
+            <ul class="mt-6 flex flex-wrap gap-2" aria-label="Características">
+              {product.tags.map((tag) => <li class="rounded-full bg-foam px-3 py-1 text-sm font-medium text-forest">{TAG_LABELS[tag]}</li>)}
+            </ul>
+          )
+        }
+        <div class="mt-8">
+          {
+            product.available ? (
+              <button
+                type="button"
+                data-add-to-cart
+                data-slug={product.slug}
+                data-name={product.name}
+                data-unit={product.unit}
+                data-price={product.price}
+                class="inline-flex h-12 w-full items-center justify-center rounded-full bg-forest px-6 font-medium text-cream sm:w-auto"
+              >
+                <span data-label>Agregar al pedido</span>
+              </button>
+            ) : (
+              <p class="font-medium text-muted">Sin stock por el momento.</p>
+            )
+          }
+        </div>
+      </div>
+    </div>
+
+    {
+      related.length > 0 && (
+        <section class="mt-16" aria-labelledby="relacionados">
+          <h2 id="relacionados" class="font-display text-3xl text-deep">Más en {product.category}</h2>
+          <div class="mt-6 grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-4">
+            {related.map((item) => <ProductCard product={item} />)}
+          </div>
+        </section>
+      )
+    }
+  </section>
+</BaseLayout>

@@ -1,0 +1,40 @@
+---
+import { site } from "@/config/site";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { formatPrice } from "@/lib/format";
+---
+
+<BaseLayout title="Cómo comprar" description="Cómo armar tu pedido, medios de pago, zonas de envío y compra mínima.">
+  <section class="mx-auto max-w-3xl px-gutter py-10 md:px-6 md:py-14">
+    <h1 class="font-display text-4xl text-deep md:text-5xl">Cómo comprar</h1>
+    <ol class="mt-8 space-y-6">
+      <li>
+        <h2 class="font-display text-2xl text-deep">1. Armá tu pedido</h2>
+        <p class="mt-2 leading-relaxed text-muted">Buscá productos o recorré las categorías y tocá "Agregar". Podés cambiar las cantidades desde tu pedido.</p>
+      </li>
+      <li>
+        <h2 class="font-display text-2xl text-deep">2. Envialo por WhatsApp</h2>
+        <p class="mt-2 leading-relaxed text-muted">El botón "Enviar pedido por WhatsApp" abre el chat con el detalle y el total ya escritos.</p>
+      </li>
+      <li>
+        <h2 class="font-display text-2xl text-deep">3. Te confirmamos</h2>
+        <p class="mt-2 leading-relaxed text-muted">Te respondemos con el stock, el precio final y la forma de entrega o retiro.</p>
+      </li>
+    </ol>
+
+    <dl class="mt-12 grid gap-6 border-t border-line pt-8 sm:grid-cols-3">
+      <div>
+        <dt class="font-medium">Medios de pago</dt>
+        <dd class="mt-1 text-muted">{site.paymentMethods.join(", ")}</dd>
+      </div>
+      <div>
+        <dt class="font-medium">Zonas de envío</dt>
+        <dd class="mt-1 text-muted">{site.deliveryZones.join(", ")}</dd>
+      </div>
+      <div>
+        <dt class="font-medium">Compra mínima</dt>
+        <dd class="mt-1 text-muted">{site.minimumOrder > 0 ? formatPrice(site.minimumOrder) : "Sin compra mínima"}</dd>
+      </div>
+    </dl>
+  </section>
+</BaseLayout>

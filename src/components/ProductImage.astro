@@ -1,0 +1,29 @@
+---
+interface Props {
+  src?: string;
+  alt: string;
+  class?: string;
+  eager?: boolean;
+}
+
+const { src, alt, class: className = "", eager = false } = Astro.props;
+---
+
+{
+  src ? (
+    <img
+      src={src}
+      alt={alt}
+      width="600"
+      height="600"
+      loading={eager ? "eager" : "lazy"}
+      decoding="async"
+      class:list={["aspect-square w-full rounded-2xl bg-foam object-cover", className]}
+    />
+  ) : (
+    <div class:list={["flex aspect-square w-full items-center justify-center rounded-2xl bg-forest", className]}>
+      <img src="/brand/mark-cream.png" alt="" width="164" height="164" class="size-14 opacity-80" />
+      <span class="sr-only">{alt}: sin foto</span>
+    </div>
+  )
+}

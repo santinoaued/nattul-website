@@ -22,12 +22,20 @@ const pageTitle = title ? `${title} | ${site.legalName}` : `${site.legalName}: $
     <meta name="description" content={description} />
     <meta name="theme-color" content="#295037" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <slot name="head" />
   </head>
-  <body class="min-h-screen">
+  <body class="flex min-h-screen flex-col">
+    <a href="#contenido" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-forest focus:px-4 focus:py-2 focus:text-cream">
+      Saltar al contenido
+    </a>
     <Header />
-    <main>
+    <main id="contenido" class="flex-1">
       <slot />
     </main>
     <Footer />
+    <p data-cart-status class="sr-only" aria-live="polite"></p>
+    <script>
+      import "@/scripts/cart-ui";
+    </script>
   </body>
 </html>

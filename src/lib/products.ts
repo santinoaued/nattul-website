@@ -1,4 +1,7 @@
 import { readFile } from "node:fs/promises";
+import { isAbsolute } from "node:path";
+import { fileURLToPath } from "node:url";
+import type { Loader } from "astro/loaders";
 import { z } from "astro/zod";
 import { csvToRecords } from "./csv.ts";
 
@@ -67,7 +70,7 @@ export function slugify(text: string): string {
     .replace(/^-|-$/g, "");
 }
 
-async function readSource(): Promise<{ text: string; source: string }> {
+async function readSource(root: URL): Promise<{ text: string; source: string }> {
   const url = import.meta.env.PRODUCTS_CSV_URL || process.env.PRODUCTS_CSV_URL;
   if (url) {
     const response = await fetch(url);
@@ -75,12 +78,13 @@ async function readSource(): Promise<{ text: string; source: string }> {
     return { text: await response.text(), source: url };
   }
   const path = import.meta.env.PRODUCTS_CSV_PATH || process.env.PRODUCTS_CSV_PATH || "data/productos-demo.csv";
-  return { text: await readFile(path, "utf8"), source: path };
+  const file = isAbsolute(path) ? path : fileURLToPath(new URL(path, root));
+  return { text: await readFile(file, "utf8"), source: path };
 }
 
-/** Content loader: reads the product CSV and returns raw entries for the collection schema to validate. */
-export async function loadProducts() {
-  const { text, source } = await readSource();
+/** Reads the product CSV and returns raw entries for the collection schema to validate. */
+async function readProducts(root: URL) {
+  const { text, source } = await readSource(root);
   const records = csvToRecords(text);
   const header = Object.keys(records[0] ?? {});
   const missing = Object.values(COLUMNS).filter((column) => !header.includes(column));
@@ -113,4 +117,18 @@ export async function loadProducts() {
       available: record[COLUMNS.available],
     };
   });
+}
+
+/** Content loader; paths are resolved from the project root, not the working directory. */
+export function productsLoader(): Loader {
+  return {
+    name: "csv-products",
+    async load({ store, parseData, config }) {
+      const entries = await readProducts(config.root);
+      store.clear();
+      for (const entry of entries) {
+        store.set({ id: entry.id, data: await parseData({ id: entry.id, data: entry }) });
+      }
+    },
+  };
 }

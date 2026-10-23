@@ -1,6 +1,6 @@
 import { defineCollection } from "astro:content";
-import { loadProducts, productSchema } from "./lib/products.ts";
+import { productSchema, productsLoader } from "./lib/products.ts";
 
 export const collections = {
-  products: defineCollection({ loader: loadProducts, schema: productSchema }),
+  products: defineCollection({ loader: productsLoader(), schema: productSchema }),
 };

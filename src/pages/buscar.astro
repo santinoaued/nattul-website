@@ -1,0 +1,17 @@
+---
+import Search from "@/components/islands/Search";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getCategories, getProducts } from "@/lib/catalog";
+import { TAG_LABELS } from "@/lib/products";
+
+const categories = getCategories(await getProducts()).map(({ slug, name }) => ({ slug, name }));
+---
+
+<BaseLayout title="Buscar productos" description="Buscá productos por nombre, categoría y características.">
+  <section class="mx-auto max-w-6xl px-gutter py-10 md:px-6 md:py-14">
+    <h1 class="font-display text-4xl text-deep md:text-5xl">Buscar productos</h1>
+    <div class="mt-8">
+      <Search client:load categories={categories} tags={TAG_LABELS} />
+    </div>
+  </section>
+</BaseLayout>

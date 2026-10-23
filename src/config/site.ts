@@ -29,6 +29,8 @@ export const site = {
       address: "Dirección a confirmar",
       city: "Paraná, Entre Ríos",
       hours: "Lunes a sábado, horario a confirmar",
+      // PLACEHOLDER: link de Google Maps de la sucursal.
+      mapsUrl: "",
     },
     {
       id: "sucursal-2",
@@ -37,6 +39,8 @@ export const site = {
       address: "Dirección a confirmar",
       city: "Oro Verde, Entre Ríos",
       hours: "Lunes a sábado, horario a confirmar",
+      // PLACEHOLDER: link de Google Maps de la sucursal.
+      mapsUrl: "",
     },
   ],
 
