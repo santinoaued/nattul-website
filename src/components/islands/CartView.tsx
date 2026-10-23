@@ -6,10 +6,10 @@ import { loadIndex } from "@/lib/search-index";
 import { buildOrderUrl } from "@/lib/whatsapp";
 
 interface Props {
-  phone: string;
+  branches: { name: string; whatsapp: string }[];
 }
 
-export default function CartView({ phone }: Props) {
+export default function CartView({ branches }: Props) {
   const cart = getCart();
   const [items, setItems] = useState<CartItem[]>(() => cart.items());
   const [notice, setNotice] = useState("");
@@ -49,7 +49,8 @@ export default function CartView({ phone }: Props) {
     );
   }
 
-  const { url, truncated } = buildOrderUrl(phone, items);
+  const orders = branches.map((branch) => ({ ...branch, ...buildOrderUrl(branch.whatsapp, items) }));
+  const truncated = orders.some((order) => order.truncated);
 
   return (
     <div class="grid gap-8 lg:grid-cols-[1fr_20rem]">
@@ -90,14 +91,21 @@ export default function CartView({ phone }: Props) {
           {items.length} producto{items.length === 1 ? "" : "s"} en tu lista
         </p>
         <p class="mt-2 text-sm text-muted">Te respondemos por WhatsApp con los precios, el stock y la forma de entrega.</p>
-        <a
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="mt-4 inline-flex h-12 w-full items-center justify-center rounded-full bg-forest px-5 font-medium text-cream"
-        >
-          Consultar por WhatsApp
-        </a>
+        <p class="mt-5 text-sm font-medium text-deep">Elegí la sucursal:</p>
+        <ul class="mt-2 grid gap-2">
+          {orders.map((order) => (
+            <li key={order.whatsapp}>
+              <a
+                href={order.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex h-12 w-full items-center justify-center rounded-full bg-forest px-5 font-medium text-cream"
+              >
+                {order.name}
+              </a>
+            </li>
+          ))}
+        </ul>
         {truncated && (
           <p class="mt-3 text-xs text-muted">La lista es larga: el mensaje resume algunos productos y el detalle se completa por chat.</p>
         )}

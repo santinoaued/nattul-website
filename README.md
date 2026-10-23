@@ -48,7 +48,7 @@ src/
 
 ## Datos del negocio
 
-Todo está en `src/config/site.ts`: nombre, WhatsApp, email, redes, sucursales (dirección, horarios, link de mapas), zonas de envío, compra mínima y medios de pago.
+Todo está en `src/config/site.ts`: nombre, email, redes, sucursales (WhatsApp, dirección, horarios, link de mapas), zonas de envío, compra mínima y medios de pago.
 
 Los valores marcados como `PLACEHOLDER` son de ejemplo y se tienen que reemplazar con los datos reales. `demoMode: true` muestra el aviso de sitio de demostración.
 

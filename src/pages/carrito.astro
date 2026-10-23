@@ -8,7 +8,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
   <section class="mx-auto max-w-6xl px-gutter py-10 md:px-6 md:py-14">
     <h1 class="font-display text-4xl text-deep md:text-5xl">Tu pedido</h1>
     <div class="mt-8">
-      <CartView client:only="preact" phone={site.whatsapp}>
+      <CartView client:only="preact" branches={site.branches.map(({ name, whatsapp }) => ({ name, whatsapp }))}>
         <p slot="fallback" class="text-muted">Cargando tu pedido…</p>
       </CartView>
     </div>

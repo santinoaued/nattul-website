@@ -22,7 +22,7 @@ const business = {
     description: site.description,
     url: new URL(href("/"), Astro.site).href,
     image: new URL(href("/og.jpg"), Astro.site).href,
-    telephone: `+${site.whatsapp}`,
+    telephone: `+${branch.whatsapp}`,
     email: site.email,
     address: { "@type": "PostalAddress", streetAddress: branch.address, addressLocality: branch.city, addressCountry: "AR" },
     sameAs: Object.values(site.social),

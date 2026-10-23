@@ -9,8 +9,6 @@ export const site = {
   // Muestra el aviso de catálogo de demostración.
   demoMode: true,
 
-  // PLACEHOLDER: número en formato internacional sin "+", espacios ni guiones.
-  whatsapp: "5490000000000",
   // PLACEHOLDER
   email: "contacto@ejemplo.com",
 
@@ -26,6 +24,8 @@ export const site = {
       id: "sucursal-1",
       // PLACEHOLDER
       name: "Sucursal Paraná",
+      // PLACEHOLDER: WhatsApp en formato internacional sin "+", espacios ni guiones.
+      whatsapp: "5490000000001",
       address: "Dirección a confirmar",
       city: "Paraná, Entre Ríos",
       hours: "Lunes a sábado, horario a confirmar",
@@ -36,6 +36,8 @@ export const site = {
       id: "sucursal-2",
       // PLACEHOLDER
       name: "Sucursal Oro Verde",
+      // PLACEHOLDER: WhatsApp en formato internacional sin "+", espacios ni guiones.
+      whatsapp: "5490000000002",
       address: "Dirección a confirmar",
       city: "Oro Verde, Entre Ríos",
       hours: "Lunes a sábado, horario a confirmar",
