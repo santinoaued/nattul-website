@@ -78,10 +78,10 @@ const steps = [
         <button type="button" data-carousel-step="1" class="inline-flex size-11 items-center justify-center rounded-full border border-line bg-paper text-lg text-forest" aria-label="Más categorías">›</button>
       </div>
     </div>
-    <ul data-carousel class="no-scrollbar mt-8 flex snap-x snap-mandatory scroll-px-gutter gap-4 overflow-x-auto px-gutter md:scroll-px-0 md:px-0" aria-label="Categorías de productos">
+    <ul data-carousel class="no-scrollbar mt-8 flex scroll-px-gutter gap-4 overflow-x-auto px-gutter md:scroll-px-0 md:px-0" aria-label="Categorías de productos">
       {
         categories.map((category) => (
-          <li class="w-[72%] shrink-0 snap-start sm:w-[44%] md:w-[calc((100%-2rem)/3)]">
+          <li class="w-[72%] shrink-0 sm:w-[44%] md:w-[calc((100%-2rem)/3)]">
             <a href={categoryUrl(category.slug)} class="group block">
               <ProductImage src={category.image} alt="" />
               <p class="mt-4 font-display text-2xl text-deep group-hover:underline md:text-3xl">{category.name}</p>
@@ -104,10 +104,10 @@ const steps = [
         </div>
       </div>
     </div>
-    <ul data-carousel="reverse" class="no-scrollbar mt-8 flex snap-x snap-mandatory scroll-px-gutter gap-4 overflow-x-auto px-gutter md:scroll-px-0 md:px-0" aria-label="Productos destacados">
+    <ul data-carousel="reverse" class="no-scrollbar mt-8 flex scroll-px-gutter gap-4 overflow-x-auto px-gutter md:scroll-px-0 md:px-0" aria-label="Productos destacados">
       {
         featured.map((product) => (
-          <li class="flex w-[46%] shrink-0 snap-start sm:w-[31%] md:w-[calc((100%-3rem)/4)]">
+          <li class="flex w-[46%] shrink-0 sm:w-[31%] md:w-[calc((100%-3rem)/4)]">
             <ProductCard product={product} />
           </li>
         ))
@@ -158,38 +158,88 @@ const steps = [
 </BaseLayout>
 
 <script>
-  // Carousels advance on their own until the visitor touches, scrolls, clicks or tabs into them.
+  // Carousels drift continuously (one each way), pause while the visitor hovers, touches, scrolls or
+  // focuses them, and pick up again a moment after. The items are duplicated so the loop never ends.
+  const SPEED = 40; // px per second
+  const RESUME_AFTER = 2500; // ms
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   document.querySelectorAll<HTMLElement>("[data-carousel]").forEach((track) => {
-    const move = (direction: number) => {
-      const card = track.firstElementChild as HTMLElement | null;
-      if (!card) return;
-      const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 8;
-      const atStart = track.scrollLeft <= 8;
-      if (direction > 0 && atEnd) track.scrollTo({ left: 0, behavior: "smooth" });
-      else if (direction < 0 && atStart) track.scrollTo({ left: track.scrollWidth, behavior: "smooth" });
-      else track.scrollBy({ left: direction * (card.offsetWidth + 16), behavior: "smooth" });
+    const buttons = track.closest("section")?.querySelectorAll<HTMLButtonElement>("[data-carousel-step]") ?? [];
+    const cardStep = () => ((track.firstElementChild as HTMLElement | null)?.offsetWidth ?? 0) + 16;
+
+    if (reduceMotion) {
+      buttons.forEach((button) =>
+        button.addEventListener("click", () => track.scrollBy({ left: Number(button.dataset.carouselStep) * cardStep(), behavior: "smooth" })),
+      );
+      return;
+    }
+
+    // Clones fill the gap after the last item; they stay out of the keyboard order and the accessibility tree.
+    const originals = [...track.children] as HTMLElement[];
+    for (const item of originals) {
+      const clone = item.cloneNode(true) as HTMLElement;
+      clone.setAttribute("aria-hidden", "true");
+      clone.querySelectorAll("a, button").forEach((element) => element.setAttribute("tabindex", "-1"));
+      track.append(clone);
+    }
+    const period = () => (track.children[originals.length] as HTMLElement).offsetLeft - originals[0].offsetLeft;
+
+    const direction = track.dataset.carousel === "reverse" ? -1 : 1;
+    // Keep the position as a float: scrollLeft rounds to whole pixels and would stall at slow speeds.
+    let position = direction < 0 ? period() : 0;
+    let paused = false;
+    let resumeTimer: number | undefined;
+    let last = performance.now();
+
+    const pause = () => {
+      paused = true;
+      clearTimeout(resumeTimer);
+    };
+    const resumeSoon = () => {
+      clearTimeout(resumeTimer);
+      resumeTimer = window.setTimeout(() => {
+        position = track.scrollLeft;
+        paused = false;
+      }, RESUME_AFTER);
     };
 
-    // "reverse" starts at the end and advances leftwards, opposite to the carousel above it.
-    const direction = track.dataset.carousel === "reverse" ? -1 : 1;
-    if (direction < 0 && !reduceMotion) track.scrollLeft = track.scrollWidth;
+    const frame = (now: number) => {
+      const elapsed = Math.min(now - last, 100);
+      last = now;
+      if (!paused) {
+        const loop = period();
+        position += (direction * SPEED * elapsed) / 1000;
+        if (position >= loop) position -= loop;
+        if (position < 0) position += loop;
+        track.scrollLeft = position;
+      }
+      requestAnimationFrame(frame);
+    };
+    track.scrollLeft = position;
+    requestAnimationFrame(frame);
 
-    let hovered = false;
-    const timer = reduceMotion ? undefined : setInterval(() => !hovered && move(direction), 3500);
-    const stop = () => clearInterval(timer);
-    for (const type of ["pointerdown", "wheel", "touchstart", "keydown", "focusin"]) track.addEventListener(type, stop, { once: true, passive: true });
-    track.addEventListener("mouseenter", () => (hovered = true));
-    track.addEventListener("mouseleave", () => (hovered = false));
+    track.addEventListener("pointerenter", pause);
+    track.addEventListener("pointerleave", resumeSoon);
+    track.addEventListener("touchstart", pause, { passive: true });
+    track.addEventListener("touchend", resumeSoon, { passive: true });
+    track.addEventListener("focusin", pause);
+    track.addEventListener("focusout", resumeSoon);
+    track.addEventListener(
+      "wheel",
+      () => {
+        pause();
+        resumeSoon();
+      },
+      { passive: true },
+    );
 
-    track
-      .closest("section")
-      ?.querySelectorAll<HTMLButtonElement>("[data-carousel-step]")
-      .forEach((button) =>
-        button.addEventListener("click", () => {
-          stop();
-          move(Number(button.dataset.carouselStep));
-        }),
-      );
+    buttons.forEach((button) =>
+      button.addEventListener("click", () => {
+        pause();
+        track.scrollBy({ left: Number(button.dataset.carouselStep) * cardStep(), behavior: "smooth" });
+        resumeSoon();
+      }),
+    );
   });
 </script>
