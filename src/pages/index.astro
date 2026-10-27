@@ -93,14 +93,26 @@ const steps = [
     </ul>
   </section>
 
-  <section class="mx-auto max-w-6xl px-gutter pb-14 md:px-6 md:pb-20">
-    <div class="flex flex-wrap items-end justify-between gap-3">
+  <section class="mx-auto max-w-6xl pb-14 md:px-6 md:pb-20">
+    <div class="flex items-end justify-between gap-4 px-gutter md:px-0">
       <h2 class="font-display text-3xl text-deep md:text-5xl">Destacados</h2>
-      <a href={href("/buscar/")} class="text-sm font-medium text-forest underline">Ver todos los productos</a>
+      <div class="flex items-center gap-4">
+        <a href={href("/buscar/")} class="text-sm font-medium text-forest underline">Ver todos</a>
+        <div class="hidden gap-2 md:flex">
+          <button type="button" data-carousel-step="-1" class="inline-flex size-11 items-center justify-center rounded-full border border-line bg-paper text-lg text-forest" aria-label="Destacados anteriores">‹</button>
+          <button type="button" data-carousel-step="1" class="inline-flex size-11 items-center justify-center rounded-full border border-line bg-paper text-lg text-forest" aria-label="Más destacados">›</button>
+        </div>
+      </div>
     </div>
-    <div class="mt-8 grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 lg:grid-cols-4">
-      {featured.map((product) => <ProductCard product={product} />)}
-    </div>
+    <ul data-carousel="reverse" class="no-scrollbar mt-8 flex snap-x snap-mandatory scroll-px-gutter gap-4 overflow-x-auto px-gutter md:scroll-px-0 md:px-0" aria-label="Productos destacados">
+      {
+        featured.map((product) => (
+          <li class="flex w-[46%] shrink-0 snap-start sm:w-[31%] md:w-[calc((100%-3rem)/4)]">
+            <ProductCard product={product} />
+          </li>
+        ))
+      }
+    </ul>
   </section>
 
   <section id="sucursales" class="bg-deep text-cream">
@@ -146,9 +158,9 @@ const steps = [
 </BaseLayout>
 
 <script>
-  // Category carousel: advances on its own until the visitor touches, scrolls, clicks or tabs into it.
-  const track = document.querySelector<HTMLElement>("[data-carousel]");
-  if (track) {
+  // Carousels advance on their own until the visitor touches, scrolls, clicks or tabs into them.
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.querySelectorAll<HTMLElement>("[data-carousel]").forEach((track) => {
     const move = (direction: number) => {
       const card = track.firstElementChild as HTMLElement | null;
       if (!card) return;
@@ -159,18 +171,25 @@ const steps = [
       else track.scrollBy({ left: direction * (card.offsetWidth + 16), behavior: "smooth" });
     };
 
+    // "reverse" starts at the end and advances leftwards, opposite to the carousel above it.
+    const direction = track.dataset.carousel === "reverse" ? -1 : 1;
+    if (direction < 0 && !reduceMotion) track.scrollLeft = track.scrollWidth;
+
     let hovered = false;
-    const timer = matchMedia("(prefers-reduced-motion: reduce)").matches ? undefined : setInterval(() => !hovered && move(1), 3500);
+    const timer = reduceMotion ? undefined : setInterval(() => !hovered && move(direction), 3500);
     const stop = () => clearInterval(timer);
     for (const type of ["pointerdown", "wheel", "touchstart", "keydown", "focusin"]) track.addEventListener(type, stop, { once: true, passive: true });
     track.addEventListener("mouseenter", () => (hovered = true));
     track.addEventListener("mouseleave", () => (hovered = false));
 
-    document.querySelectorAll<HTMLButtonElement>("[data-carousel-step]").forEach((button) =>
-      button.addEventListener("click", () => {
-        stop();
-        move(Number(button.dataset.carouselStep));
-      }),
-    );
-  }
+    track
+      .closest("section")
+      ?.querySelectorAll<HTMLButtonElement>("[data-carousel-step]")
+      .forEach((button) =>
+        button.addEventListener("click", () => {
+          stop();
+          move(Number(button.dataset.carouselStep));
+        }),
+      );
+  });
 </script>
