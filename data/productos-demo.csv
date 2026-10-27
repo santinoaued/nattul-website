@@ -28,7 +28,7 @@ NAT-0026,,Granola sin azúcar,Cereales y legumbres,Cereales,500 g,"Avena, frutos
 NAT-0027,,Lentejas,Cereales y legumbres,Legumbres,500 g,"Lentejas medianas para guisos, hamburguesas y ensaladas.",/products/lentejas.jpg,sin-tacc|vegano,si
 NAT-0028,,Garbanzos,Cereales y legumbres,Legumbres,500 g,"Para hummus, guisos y garbanzos tostados.",,sin-tacc|vegano,si
 NAT-0029,,Porotos negros,Cereales y legumbres,Legumbres,500 g,Remojo de una noche y una hora de cocción.,,sin-tacc|vegano,si
-NAT-0030,,Harina integral,Harinas,Harinas,1 kg,Harina de trigo integral para panes y pizzas caseras.,,vegano|integral,si
+NAT-0030,,Harina integral,Harinas,Harinas,1 kg,Harina de trigo integral para panes y pizzas caseras.,/products/harina-integral.jpg,vegano|integral,si
 NAT-0031,,Harina de almendras,Harinas,Harinas,500 g,"Almendras molidas finas, para repostería sin TACC.",,sin-tacc|vegano,si
 NAT-0032,,Harina de garbanzos,Harinas,Harinas,500 g,"Para fainá, tortillas y rebozados sin huevo.",,sin-tacc|vegano,si
 NAT-0033,,Harina de arroz,Harinas,Harinas,500 g,Base para premezclas sin TACC.,,sin-tacc|vegano,si
@@ -46,6 +46,6 @@ NAT-0044,,Yerba compuesta con hierbas,Yerba e infusiones,Yerba,500 g,"Con menta,
 NAT-0045,,Té verde en hebras,Yerba e infusiones,Infusiones,100 g,"Hebras enteras. Infusionar a 80 °C, no hirviendo.",,sin-tacc|vegano,si
 NAT-0046,,Manzanilla en flor,Yerba e infusiones,Infusiones,100 g,Flores enteras para infusión digestiva.,,sin-tacc|vegano,si
 NAT-0047,,Azúcar mascabo,Endulzantes,Endulzantes,500 g,"Azúcar integral de caña, sin refinar.",,sin-tacc|vegano,si
-NAT-0048,,Miel pura,Endulzantes,Endulzantes,500 g,Miel envasada en frasco de vidrio.,,sin-tacc,si
+NAT-0048,,Miel pura,Endulzantes,Endulzantes,500 g,Miel envasada en frasco de vidrio.,/products/miel.jpg,sin-tacc,si
 NAT-0049,,Stevia en hojas,Endulzantes,Endulzantes,100 g,Hojas secas para endulzar infusiones sin calorías.,,sin-tacc|vegano|sin-azucar,si
 NAT-0050,,Eritritol,Endulzantes,Endulzantes,250 g,"Endulzante sin calorías, apto repostería.",,sin-tacc|vegano|sin-azucar,no

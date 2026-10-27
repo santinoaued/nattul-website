@@ -24,6 +24,8 @@ export default defineConfig({
         "default-src 'self'",
         `img-src 'self' data: ${imagesOrigin}`.trim(),
         "font-src 'self'",
+        // Google Maps embeds on the home page.
+        "frame-src https://maps.google.com https://www.google.com",
         "connect-src 'self'",
         "object-src 'none'",
         "base-uri 'self'",

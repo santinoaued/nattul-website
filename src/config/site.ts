@@ -21,28 +21,28 @@ export const site = {
 
   branches: [
     {
-      id: "sucursal-1",
-      // PLACEHOLDER
+      id: "sucursal-parana",
       name: "Sucursal Paraná",
       // WhatsApp en formato internacional sin "+", espacios ni guiones.
       whatsapp: "5493436124634",
-      address: "Dirección a confirmar",
+      address: "Av. de las Américas 2705",
       city: "Paraná, Entre Ríos",
+      // PLACEHOLDER
       hours: "Lunes a sábado, horario a confirmar",
-      // PLACEHOLDER: link de Google Maps de la sucursal.
-      mapsUrl: "",
+      mapsUrl: "https://www.google.com/maps/search/?api=1&query=Avenida+de+las+Am%C3%A9ricas+2705,+Paran%C3%A1,+Entre+R%C3%ADos",
+      mapEmbed: "https://maps.google.com/maps?q=Avenida+de+las+Am%C3%A9ricas+2705,+Paran%C3%A1,+Entre+R%C3%ADos&z=16&hl=es&output=embed",
     },
     {
-      id: "sucursal-2",
-      // PLACEHOLDER
+      id: "sucursal-oro-verde",
       name: "Sucursal Oro Verde",
       // WhatsApp en formato internacional sin "+", espacios ni guiones.
       whatsapp: "5493435050098",
-      address: "Dirección a confirmar",
+      address: "Los Zorzales 304, esq. Los Eucaliptos",
       city: "Oro Verde, Entre Ríos",
+      // PLACEHOLDER
       hours: "Lunes a sábado, horario a confirmar",
-      // PLACEHOLDER: link de Google Maps de la sucursal.
-      mapsUrl: "",
+      mapsUrl: "https://www.google.com/maps/search/?api=1&query=Los+Zorzales+304,+Oro+Verde,+Entre+R%C3%ADos",
+      mapEmbed: "https://maps.google.com/maps?q=Los+Zorzales+304,+Oro+Verde,+Entre+R%C3%ADos&z=16&hl=es&output=embed",
     },
   ],
 
