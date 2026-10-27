@@ -1,9 +1,9 @@
-import { formatAmount } from "./format.ts";
+import { formatAmount } from "./amount.ts";
 
 export interface OrderLine {
   name: string;
   unit: string;
-  qty: number;
+  amount: number;
 }
 
 // wa.me links longer than this start failing in some browsers and WhatsApp clients.
@@ -12,7 +12,7 @@ export const MAX_URL_LENGTH = 2000;
 const shorten = (text: string, max: number) => (text.length > max ? `${text.slice(0, max - 1).trimEnd()}…` : text);
 
 function buildMessage(lines: OrderLine[], nameMax: number, visible: number): string {
-  const detail = lines.slice(0, visible).map((line) => `${shorten(line.name, nameMax)}: ${formatAmount(line.unit, line.qty)}`);
+  const detail = lines.slice(0, visible).map((line) => `${shorten(line.name, nameMax)}: ${formatAmount(line.unit, line.amount)}`);
   const hidden = lines.length - visible;
   if (hidden > 0) detail.push(`+ ${hidden} producto${hidden === 1 ? "" : "s"} más`);
   return ["Hola! Quiero consultar precio y disponibilidad de estos productos:", ...detail].join("\n");

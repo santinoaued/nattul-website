@@ -1,15 +1,18 @@
+import { clampAmount, packAmount } from "./amount.ts";
+
 export interface CartItem {
   slug: string;
   name: string;
   unit: string;
-  qty: number;
+  /** In the product's base measure: grams, millilitres or pieces (see amount.ts). */
+  amount: number;
 }
 
 type Listener = (items: CartItem[]) => void;
 type Storage = Pick<globalThis.Storage, "getItem" | "setItem">;
 
-const KEY = "nattul:carrito:v1";
-export const MAX_QTY = 99;
+// v2 stores amounts instead of pack counts; v1 carts are dropped.
+const KEY = "nattul:carrito:v2";
 
 /** localStorage can be missing or throw (private mode, blocked cookies); fall back to memory. */
 function safeStorage(): Storage {
@@ -31,10 +34,10 @@ function sanitize(value: unknown): CartItem[] {
   if (!Array.isArray(value)) return [];
   return value.flatMap((item) => {
     if (typeof item !== "object" || item === null) return [];
-    const { slug, name, unit, qty } = item as Record<string, unknown>;
+    const { slug, name, unit, amount } = item as Record<string, unknown>;
     if (typeof slug !== "string" || typeof name !== "string" || typeof unit !== "string") return [];
-    if (!Number.isInteger(qty) || (qty as number) < 1) return [];
-    return [{ slug, name, unit, qty: Math.min(qty as number, MAX_QTY) }];
+    if (!Number.isInteger(amount) || (amount as number) < 1) return [];
+    return [{ slug, name, unit, amount: clampAmount(unit, amount as number) }];
   });
 }
 
@@ -60,19 +63,17 @@ export function createCart(storage: Storage = safeStorage()) {
 
   return {
     items: read,
-    // Distinct products: qty is an amount (3 packs = 750 g), not a number of items.
+    // Distinct products, not grams.
     count: () => read().length,
-    add(item: Omit<CartItem, "qty">, qty = 1) {
+    add(item: Omit<CartItem, "amount">, amount = packAmount(item.unit)) {
       const items = read();
       const existing = items.find((entry) => entry.slug === item.slug);
-      if (existing) existing.qty = Math.min(existing.qty + qty, MAX_QTY);
-      else items.push({ ...item, qty: Math.min(qty, MAX_QTY) });
+      if (existing) existing.amount = clampAmount(item.unit, existing.amount + amount);
+      else items.push({ ...item, amount: clampAmount(item.unit, amount) });
       write(items);
     },
-    setQty(slug: string, qty: number) {
-      const items = read();
-      const next = qty < 1 ? items.filter((item) => item.slug !== slug) : items.map((item) => (item.slug === slug ? { ...item, qty: Math.min(Math.floor(qty), MAX_QTY) } : item));
-      write(next);
+    setAmount(slug: string, amount: number) {
+      write(read().map((item) => (item.slug === slug ? { ...item, amount: clampAmount(item.unit, Math.round(amount)) } : item)));
     },
     remove(slug: string) {
       write(read().filter((item) => item.slug !== slug));

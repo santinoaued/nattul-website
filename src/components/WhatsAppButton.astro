@@ -1,0 +1,50 @@
+---
+import { site } from "@/config/site";
+
+const greeting = encodeURIComponent("Hola! Quería hacer una consulta.");
+---
+
+<details data-whatsapp class="group fixed bottom-4 right-4 z-40 md:bottom-6 md:right-6">
+  <summary
+    class="flex h-14 cursor-pointer list-none items-center gap-2 rounded-full bg-forest px-5 font-medium text-cream shadow-lg shadow-deep/25 [&::-webkit-details-marker]:hidden"
+  >
+    <svg aria-hidden="true" viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg>
+    <span class="group-open:hidden">WhatsApp</span>
+    <span class="hidden group-open:inline">Cerrar</span>
+  </summary>
+  <div class="absolute bottom-16 right-0 w-64 rounded-card border border-line bg-paper p-2 shadow-lg shadow-deep/15">
+    <p class="px-3 pb-1 pt-2 text-sm text-muted">¿A qué sucursal le escribís?</p>
+    <ul>
+      {
+        site.branches.map((branch) => (
+          <li>
+            <a
+              href={`https://wa.me/${branch.whatsapp}?text=${greeting}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex min-h-12 items-center rounded-2xl px-3 font-medium text-deep hover:bg-foam"
+            >
+              {branch.name}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</details>
+
+<script>
+  // <details> stays open on its own; close it on Escape or a click outside.
+  const menu = document.querySelector<HTMLDetailsElement>("[data-whatsapp]");
+  if (menu) {
+    document.addEventListener("click", (event) => {
+      if (menu.open && !menu.contains(event.target as Node)) menu.open = false;
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && menu.open) {
+        menu.open = false;
+        menu.querySelector("summary")?.focus();
+      }
+    });
+  }
+</script>

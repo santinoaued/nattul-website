@@ -1,5 +1,5 @@
-import { getCart, MAX_QTY } from "@/lib/cart";
-import { formatAmount } from "@/lib/format";
+import { amountLimits, formatAmount, stepAmount } from "@/lib/amount";
+import { getCart } from "@/lib/cart";
 
 // One delegated handler for every "Agregar" button, so product grids ship no per-card JS.
 const cart = getCart();
@@ -12,16 +12,18 @@ function renderCount() {
   });
 }
 
-// Amount stepper on the product page: the container keeps the pack count in data-qty.
+// Amount stepper on the product page: the container keeps the chosen amount in data-amount.
 function step(button: HTMLElement) {
   const box = button.closest<HTMLElement>("[data-amount]");
   if (!box?.dataset.unit) return;
-  const qty = Math.min(Math.max(Number(box.dataset.qty) + Number(button.dataset.step), 1), MAX_QTY);
-  box.dataset.qty = String(qty);
+  const unit = box.dataset.unit;
+  const amount = stepAmount(unit, Number(box.dataset.amount), Number(button.dataset.step) > 0 ? 1 : -1);
+  const { min, max } = amountLimits(unit);
+  box.dataset.amount = String(amount);
   const label = box.querySelector("[data-amount-label]");
-  if (label) label.textContent = formatAmount(box.dataset.unit, qty);
-  box.querySelector<HTMLButtonElement>('[data-step="-1"]')!.disabled = qty <= 1;
-  box.querySelector<HTMLButtonElement>('[data-step="1"]')!.disabled = qty >= MAX_QTY;
+  if (label) label.textContent = formatAmount(unit, amount);
+  box.querySelector<HTMLButtonElement>('[data-step="-1"]')!.disabled = amount <= min;
+  box.querySelector<HTMLButtonElement>('[data-step="1"]')!.disabled = amount >= max;
 }
 
 document.addEventListener("click", (event) => {
@@ -31,14 +33,15 @@ document.addEventListener("click", (event) => {
   if (!button) return;
   const { slug, name, unit } = button.dataset;
   if (!slug || !name || !unit) return;
-  const qty = Number(button.closest<HTMLElement>("[data-amount]")?.dataset.qty ?? 1);
-  cart.add({ slug, name, unit }, qty);
+  const chosen = Number(button.closest<HTMLElement>("[data-amount]")?.dataset.amount);
+  const amount = chosen > 0 ? chosen : undefined;
+  cart.add({ slug, name, unit }, amount);
   const label = button.querySelector("[data-label]") ?? button;
   const original = label.textContent;
   label.textContent = "Agregado";
   setTimeout(() => (label.textContent = original), 1500);
   const status = document.querySelector("[data-cart-status]");
-  if (status) status.textContent = `${formatAmount(unit, qty)} de ${name} agregado al pedido`;
+  if (status) status.textContent = `${name} agregado al pedido`;
 });
 
 cart.subscribe(renderCount);

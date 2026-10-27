@@ -7,7 +7,7 @@ import ProductCard from "@/components/ProductCard.astro";
 import ProductImage from "@/components/ProductImage.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { categoryUrl, getProducts } from "@/lib/catalog";
-import { formatAmount } from "@/lib/format";
+import { amountLimits, formatAmount, packAmount } from "@/lib/amount";
 import { resolveProductImage } from "@/lib/images";
 import { TAG_LABELS, type Product } from "@/lib/products";
 
@@ -28,7 +28,8 @@ interface Props {
 }
 
 const { product, related } = Astro.props;
-const step = product.unit === "unidad" ? "una unidad" : product.unit;
+const amount = packAmount(product.unit);
+const limits = amountLimits(product.unit);
 const resolved = resolveProductImage(product.image);
 const image = typeof resolved === "object" ? (await getImage({ src: resolved, width: 1200, format: "jpg" })).src : resolved;
 const url = new URL(Astro.url.pathname, Astro.site).href;
@@ -54,7 +55,7 @@ const structuredData = {
       <ProductImage src={product.image} alt={product.name} eager large />
       <div>
         <h1 class="font-display text-4xl leading-tight text-deep md:text-5xl">{product.name}</h1>
-        <p class="mt-2 text-muted">{product.unit === "unidad" ? "Por unidad" : `De a ${product.unit}`}{product.subcategory ? `, ${product.subcategory}` : ""}</p>
+        <p class="mt-2 text-muted">{product.unit}{product.subcategory ? `, ${product.subcategory}` : ""}</p>
         <p class="mt-6 max-w-prose leading-relaxed">{product.description}</p>
         {
           product.tags.length > 0 && (
@@ -66,15 +67,15 @@ const structuredData = {
         <div class="mt-8">
           {
             product.available ? (
-              <div class="flex flex-wrap items-center gap-3" data-amount data-unit={product.unit} data-qty="1">
+              <div class="flex flex-wrap items-center gap-3" data-unit={product.unit} data-amount={amount}>
                 <div class="inline-flex h-12 items-center rounded-full border border-line bg-paper" role="group" aria-label={`Cantidad de ${product.name}`}>
-                  <button type="button" data-step="-1" disabled class="inline-flex size-12 items-center justify-center rounded-full text-lg text-forest disabled:text-line" aria-label={`Restar ${step}`}>
+                  <button type="button" data-step="-1" disabled={amount <= limits.min} class="inline-flex size-12 items-center justify-center rounded-full text-lg text-forest disabled:text-line" aria-label="Menos cantidad">
                     −
                   </button>
                   <output data-amount-label class="min-w-[5.5rem] text-center font-medium tabular-nums" aria-live="polite">
-                    {formatAmount(product.unit, 1)}
+                    {formatAmount(product.unit, amount)}
                   </output>
-                  <button type="button" data-step="1" class="inline-flex size-12 items-center justify-center rounded-full text-lg text-forest disabled:text-line" aria-label={`Sumar ${step}`}>
+                  <button type="button" data-step="1" class="inline-flex size-12 items-center justify-center rounded-full text-lg text-forest disabled:text-line" aria-label="Más cantidad">
                     +
                   </button>
                 </div>

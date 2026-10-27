@@ -1,7 +1,7 @@
 import { href } from "@/lib/url";
 import { useEffect, useState } from "preact/hooks";
-import { getCart, MAX_QTY, type CartItem } from "@/lib/cart";
-import { formatAmount } from "@/lib/format";
+import { amountLimits, formatAmount, stepAmount } from "@/lib/amount";
+import { getCart, type CartItem } from "@/lib/cart";
 import { loadIndex } from "@/lib/search-index";
 import { buildOrderUrl } from "@/lib/whatsapp";
 
@@ -67,13 +67,12 @@ export default function CartView({ branches }: Props) {
                 <a href={href(`/productos/${item.slug}/`)} class="font-medium hover:underline">
                   {item.name}
                 </a>
-                {item.unit !== "unidad" && <p class="text-sm text-muted">De a {item.unit}</p>}
               </div>
               <AmountStepper
                 label={item.name}
                 unit={item.unit}
-                qty={item.qty}
-                onChange={(qty) => cart.setQty(item.slug, qty)}
+                amount={item.amount}
+                onChange={(amount) => cart.setAmount(item.slug, amount)}
               />
               <button type="button" class="h-11 px-2 text-sm text-forest underline" onClick={() => cart.remove(item.slug)}>
                 Quitar
@@ -117,33 +116,33 @@ export default function CartView({ branches }: Props) {
 interface StepperProps {
   label: string;
   unit: string;
-  qty: number;
-  onChange: (qty: number) => void;
+  amount: number;
+  onChange: (amount: number) => void;
 }
 
 /** Shows the total amount (750 g) instead of a pack count, stepping one pack at a time. */
-function AmountStepper({ label, unit, qty, onChange }: StepperProps) {
-  const step = unit === "unidad" ? "una unidad" : unit;
+function AmountStepper({ label, unit, amount, onChange }: StepperProps) {
+  const { min, max } = amountLimits(unit);
   return (
     <div class="inline-flex h-11 items-center rounded-full border border-line bg-paper" role="group" aria-label={`Cantidad de ${label}`}>
       <button
         type="button"
         class="inline-flex size-11 items-center justify-center rounded-full text-lg text-forest disabled:text-line"
-        aria-label={`Restar ${step}`}
-        disabled={qty <= 1}
-        onClick={() => onChange(qty - 1)}
+        aria-label="Menos cantidad"
+        disabled={amount <= min}
+        onClick={() => onChange(stepAmount(unit, amount, -1))}
       >
         −
       </button>
       <output class="min-w-[5.5rem] text-center font-medium tabular-nums" aria-live="polite">
-        {formatAmount(unit, qty)}
+        {formatAmount(unit, amount)}
       </output>
       <button
         type="button"
         class="inline-flex size-11 items-center justify-center rounded-full text-lg text-forest disabled:text-line"
-        aria-label={`Sumar ${step}`}
-        disabled={qty >= MAX_QTY}
-        onClick={() => onChange(qty + 1)}
+        aria-label="Más cantidad"
+        disabled={amount >= max}
+        onClick={() => onChange(stepAmount(unit, amount, 1))}
       >
         +
       </button>
