@@ -13,10 +13,8 @@ export const site = {
   email: "contacto@ejemplo.com",
 
   social: {
-    // PLACEHOLDER
-    instagram: "https://www.instagram.com/",
-    // PLACEHOLDER
-    facebook: "https://www.facebook.com/",
+    instagram: "https://www.instagram.com/nattul.almacennatural/",
+    facebook: "https://www.facebook.com/profile.php?id=61560636547815",
   },
 
   branches: [
