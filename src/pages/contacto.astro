@@ -3,6 +3,21 @@ import { site } from "@/config/site";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
 const greeting = encodeURIComponent("Hola! Quería hacer una consulta.");
+// Static icon markup (Lucide outlines), not user data.
+const socials = [
+  {
+    name: "Instagram",
+    text: "Novedades y productos nuevos",
+    url: site.social.instagram,
+    icon: '<rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/>',
+  },
+  {
+    name: "Facebook",
+    text: "Seguinos y escribinos",
+    url: site.social.facebook,
+    icon: '<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>',
+  },
+];
 ---
 
 <BaseLayout title="Contacto y sucursales" description="Sucursales, horarios, WhatsApp y redes de Nattul.">
@@ -38,9 +53,28 @@ const greeting = encodeURIComponent("Hola! Quería hacer una consulta.");
       }
     </div>
 
-    <ul class="mt-12 flex flex-wrap gap-4 text-sm font-medium">
-      <li><a href={site.social.instagram} target="_blank" rel="noopener noreferrer" class="text-forest underline">Instagram</a></li>
-      <li><a href={site.social.facebook} target="_blank" rel="noopener noreferrer" class="text-forest underline">Facebook</a></li>
+    <h2 class="mt-14 font-display text-3xl text-deep">Seguinos</h2>
+    <ul class="mt-5 grid gap-3 sm:grid-cols-2 lg:max-w-3xl">
+      {
+        socials.map((social) => (
+          <li>
+            <a
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center gap-4 rounded-card border border-line bg-paper p-4 transition-colors hover:border-forest hover:bg-foam"
+            >
+              <span class="inline-flex size-14 shrink-0 items-center justify-center rounded-full bg-forest text-cream">
+                <svg aria-hidden="true" viewBox="0 0 24 24" class="size-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={social.icon} />
+              </span>
+              <span>
+                <span class="block font-display text-2xl text-deep">{social.name}</span>
+                <span class="block text-sm text-muted">{social.text}</span>
+              </span>
+            </a>
+          </li>
+        ))
+      }
     </ul>
   </section>
 </BaseLayout>
