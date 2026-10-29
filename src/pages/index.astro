@@ -78,7 +78,7 @@ const steps = [
         <button type="button" data-carousel-step="1" class="inline-flex size-11 items-center justify-center rounded-full border border-line bg-paper text-lg text-forest" aria-label="Más categorías">›</button>
       </div>
     </div>
-    <div data-carousel class="mt-8 touch-pan-y overflow-hidden">
+    <div data-carousel class="mt-8 touch-pan-y select-none overflow-hidden">
       <ul class="flex gap-4" aria-label="Categorías de productos">
         {
           categories.map((category) => (
@@ -106,7 +106,7 @@ const steps = [
         </div>
       </div>
     </div>
-    <div data-carousel="reverse" class="mt-8 touch-pan-y overflow-hidden">
+    <div data-carousel="reverse" class="mt-8 touch-pan-y select-none overflow-hidden">
       <ul class="flex gap-4" aria-label="Productos destacados">
         {
           featured.map((product) => (
@@ -172,6 +172,8 @@ const steps = [
 
   document.querySelectorAll<HTMLElement>("[data-carousel]").forEach((viewport) => {
     const list = viewport.firstElementChild as HTMLElement;
+    // Links and images are natively draggable; that drag cancels ours with pointercancel as soon as the mouse moves.
+    list.querySelectorAll<HTMLElement>("a, img").forEach((element) => (element.draggable = false));
     const originals = [...list.children] as HTMLElement[];
     // Clones fill the space after the last item; they stay out of the keyboard order and the accessibility tree.
     for (const item of originals) {
@@ -261,13 +263,14 @@ const steps = [
       },
       true,
     );
-    viewport.addEventListener("dragstart", (event) => event.preventDefault());
 
     // Keyboard: bring the focused card into view and hold still while focus is inside.
     viewport.addEventListener("focusin", (event) => {
       pause();
       viewport.scrollLeft = 0;
-      const card = (event.target as Element).closest("li");
+      // Only keyboard focus moves the strip; a mouse press also focuses the link and must not make it jump.
+      const target = event.target as Element;
+      const card = target.matches(":focus-visible") ? target.closest("li") : null;
       if (card) position = card.offsetLeft - originals[0].offsetLeft;
     });
     viewport.addEventListener("focusout", resumeSoon);
