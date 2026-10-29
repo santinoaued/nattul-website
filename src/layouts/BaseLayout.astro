@@ -38,7 +38,10 @@ const imageUrl = new URL(image, Astro.site);
     <meta property="og:image" content={imageUrl} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#295037" />
-    <link rel="icon" type="image/svg+xml" href={href("/favicon.svg")} />
+    <!-- Renamed when the icon changes: browsers cache favicons for a long time. -->
+    <link rel="icon" type="image/svg+xml" href={href("/favicon-hojas.svg")} />
+    <link rel="icon" type="image/png" sizes="48x48" href={href("/favicon-48.png")} />
+    <link rel="apple-touch-icon" href={href("/apple-touch-icon.png")} />
     <link rel="sitemap" href={href("/sitemap.xml")} />
     <link rel="preload" href={href("/fonts/outfit-latin.woff2")} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={href("/fonts/fraunces-latin.woff2")} as="font" type="font/woff2" crossorigin />
